@@ -1,12 +1,11 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, IconButton, Snackbar, useTheme } from "react-native-paper";
+import { View, StyleSheet, Platform } from "react-native";
+import { IconButton, Snackbar } from "react-native-paper";
 import { Portal } from "react-native-paper";
 import { useState } from "react";
 
 const TestBanner = () => {
   const [visible, setVisible] = useState(false);
-  const theme = useTheme();
 
   const onToggleSnackBar = () => setVisible(!visible);
 
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     marginBottom: 85,
+    ...(Platform.OS === "web" ? { pointerEvents: "none" } : {}),
   },
 });
 

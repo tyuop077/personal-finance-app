@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Button, IconButton, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
 
