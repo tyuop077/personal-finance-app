@@ -16,7 +16,6 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
         disableScrollIfPossible
         childrenStyle={styles.container}
         modalStyle={{ backgroundColor: theme.colors.background }}
-        handleStyle={{ backgroundColor: theme.colors.onSurfaceVariant }}
       >
         <Text>test</Text>
       </Modalize>
