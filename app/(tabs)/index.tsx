@@ -3,6 +3,7 @@ import React from "react";
 import { AnimatedFAB } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
@@ -11,6 +12,10 @@ export default function TabOneScreen() {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
 
     setIsExtended(currentScrollPosition <= 0);
+  };
+
+  const handleAdd = () => {
+    router.push("/modal");
   };
 
   return (
@@ -24,7 +29,7 @@ export default function TabOneScreen() {
         icon="plus"
         label="Добавить"
         extended={isExtended}
-        onPress={() => undefined}
+        onPress={handleAdd}
         animateFrom="right"
         iconMode="dynamic"
         style={[styles.fabStyle]}
