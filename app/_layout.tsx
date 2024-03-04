@@ -100,8 +100,8 @@ function RootLayoutNav() {
         },
       }}
     >
-      <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
+        <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
         <PortalizeHost>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

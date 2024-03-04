@@ -1,7 +1,8 @@
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet } from "react-native";
-import { Text, View } from "@/components/Themed";
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, View } from "react-native";
 import React from "react";
 import { AnimatedFAB } from "react-native-paper";
+import { Text } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
@@ -13,10 +14,10 @@ export default function TabOneScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
         {[...new Array(100).keys()].map((_, i) => (
-          <Text>{i}</Text>
+          <Text key={i}>{i}</Text>
         ))}
       </ScrollView>
       <AnimatedFAB
@@ -28,15 +29,13 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   title: {
     fontSize: 20,
