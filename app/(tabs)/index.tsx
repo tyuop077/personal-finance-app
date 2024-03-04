@@ -1,12 +1,14 @@
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { AnimatedFAB } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import AddModal from "@/components/AddModal";
+import { Modalize } from "react-native-modalize";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
+  const modalizeRef = useRef<Modalize>();
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -15,7 +17,7 @@ export default function TabOneScreen() {
   };
 
   const handleAdd = () => {
-    router.push("/modal");
+    modalizeRef.current?.open();
   };
 
   return (
@@ -34,6 +36,7 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
+      <AddModal modalizeRef={modalizeRef} />
     </SafeAreaView>
   );
 }
