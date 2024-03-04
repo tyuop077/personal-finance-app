@@ -21,6 +21,7 @@ import { DarkColors, LightColors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
 import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
+import * as NavigationBar from "expo-navigation-bar";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -34,6 +35,9 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+NavigationBar.setPositionAsync("absolute");
+NavigationBar.setBackgroundColorAsync("#ffffff00");
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
