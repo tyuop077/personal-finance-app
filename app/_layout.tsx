@@ -12,6 +12,7 @@ import { StatusBar } from "expo-status-bar";
 import { Inter_400Regular, Inter_500Medium, Inter_900Black } from "@expo-google-fonts/inter";
 import Colors from "../constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Host as PortalizeHost } from "react-native-portalize";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -100,10 +101,14 @@ function RootLayoutNav() {
       }}
     >
       <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <PortalizeHost>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          </Stack>
+        </PortalizeHost>
+      </GestureHandlerRootView>
     </PaperProvider>
   );
 }
