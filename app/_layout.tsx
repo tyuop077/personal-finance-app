@@ -1,5 +1,12 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { MD3LightTheme, PaperProvider, configureFonts, MD3Theme, MD3DarkTheme } from "react-native-paper";
+import {
+  MD3LightTheme,
+  PaperProvider,
+  configureFonts,
+  MD3Theme,
+  MD3DarkTheme,
+  adaptNavigationTheme,
+} from "react-native-paper";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
@@ -13,6 +20,7 @@ import { Inter_400Regular, Inter_500Medium, Inter_900Black } from "@expo-google-
 import { DarkColors, LightColors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
+import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -92,6 +100,13 @@ function RootLayoutNav() {
     ...commonTheme,
   };
 
+  const { LightTheme, DarkTheme } = adaptNavigationTheme({
+    reactNavigationLight: RNLight,
+    reactNavigationDark: RNDark,
+    materialLight: lightTheme,
+    materialDark: darkTheme,
+  });
+
   return (
     <PaperProvider
       theme={md3Theme}
@@ -117,15 +132,17 @@ function RootLayoutNav() {
         },
       }}
     >
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
-        <PortalizeHost>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
-          </Stack>
-        </PortalizeHost>
-      </GestureHandlerRootView>
+      <ThemeProvider value={colorScheme === "light" ? LightTheme : DarkTheme}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
+          <PortalizeHost>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
+            </Stack>
+          </PortalizeHost>
+        </GestureHandlerRootView>
+      </ThemeProvider>
     </PaperProvider>
   );
 }
