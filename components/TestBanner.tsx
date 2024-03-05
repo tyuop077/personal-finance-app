@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     marginBottom: 85,
-    ...(Platform.OS === "web" ? { pointerEvents: "none" } : {}),
+    ...(Platform.OS !== "android" ? { pointerEvents: "none" } : {}),
   },
 });
 
