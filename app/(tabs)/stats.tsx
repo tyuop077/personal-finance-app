@@ -1,21 +1,40 @@
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Appbar, Button, Menu, Text } from "react-native-paper";
 import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
+import { useState } from "react";
 
 export default function TabTwoScreen() {
+  const [visible, setVisible] = useState(false);
+
+  const handleOpenMenu = () => setVisible(true);
+
+  const handleCloseMenu = () => setVisible(false);
+
   const handleTestButton = () => {
     router.push("/modal");
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Статистика</Text>
-      <Button mode="contained-tonal" icon="history" onPress={handleTestButton}>
-        test modal
-      </Button>
-      <TestBanner />
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.Content title="Статистика" />
+        <Menu
+          visible={visible}
+          onDismiss={handleCloseMenu}
+          anchor={<Appbar.Action icon="feather/more-vertical" onPress={handleOpenMenu} />}
+        >
+          <Menu.Item title="Настройки" onPress={handleCloseMenu} />
+        </Menu>
+      </Appbar.Header>
+      <View style={styles.container}>
+        <Text style={styles.title}>Статистика</Text>
+        <Button mode="contained-tonal" icon="history" onPress={handleTestButton}>
+          test modal
+        </Button>
+        <TestBanner />
+      </View>
+    </>
   );
 }
 
