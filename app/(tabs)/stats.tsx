@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
 
-export default function TabTwoScreen() {
+export default function StatsPage() {
   const [visible, setVisible] = useState(false);
 
   const handleOpenMenu = () => setVisible(true);
@@ -13,6 +13,11 @@ export default function TabTwoScreen() {
 
   const handleTestButton = () => {
     router.push("/modal");
+  };
+
+  const handleSettings = () => {
+    router.push("/settings");
+    setVisible(false);
   };
 
   return (
@@ -24,7 +29,7 @@ export default function TabTwoScreen() {
           onDismiss={handleCloseMenu}
           anchor={<Appbar.Action icon="feather/more-vertical" onPress={handleOpenMenu} />}
         >
-          <Menu.Item title="Настройки" onPress={handleCloseMenu} />
+          <Menu.Item title="Настройки" onPress={handleSettings} />
         </Menu>
       </Appbar.Header>
       <View style={styles.container}>
