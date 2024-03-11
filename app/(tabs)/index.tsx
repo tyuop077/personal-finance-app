@@ -16,16 +16,16 @@ import { Modalize } from "react-native-modalize";
 
 enum ElemType {
   INCOME = "Доход",
-  EXPENSE = "Расход"
+  EXPENSE = "Расход",
 }
 
 interface FinanceElem {
-  id: number,
-  elemType: ElemType,
-  money: number,
-  comment?: string,
-  category?: string,
-  isExpense: boolean,
+  id: number;
+  elemType: ElemType;
+  money: number;
+  comment?: string;
+  category?: string;
+  isExpense: boolean;
 }
 
 export default function TabOneScreen() {
@@ -41,7 +41,7 @@ export default function TabOneScreen() {
     { id: 7, elemType: ElemType.INCOME, isExpense: false, money: 20000 },
     { id: 8, elemType: ElemType.INCOME, isExpense: false, money: 60000 },
     { id: 9, elemType: ElemType.INCOME, isExpense: false, money: 500 },
-  ])
+  ]);
   const [isCome, setIsCome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
 
@@ -56,8 +56,18 @@ export default function TabOneScreen() {
   };
 
   const handleAddNewElem = () => {
-    setElems([...elems, {id: Number(new Date()), elemType: ElemType.EXPENSE, category: "еда", comment: '', isExpense: isCome, money: money }])
-  }
+    setElems([
+      ...elems,
+      {
+        id: Number(new Date()),
+        elemType: ElemType.EXPENSE,
+        category: "еда",
+        comment: "",
+        isExpense: isCome,
+        money: money,
+      },
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -75,17 +85,16 @@ export default function TabOneScreen() {
         {elems.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
             <View style={styles.elemsEachContainerLeft}>
-              {elem.isExpense
-                ?
+              {elem.isExpense ? (
                 <View>
                   <Text>{elem.category}</Text>
                   <Text>{elem.comment}</Text>
                 </View>
-                :
+              ) : (
                 <View>
                   <Text>Доход</Text>
                 </View>
-              }
+              )}
             </View>
             <View style={styles.elemsEachContainerRight}>
               <Text>{elem.isExpense ? `-${elem.money}` : `+${elem.money}`}</Text>
@@ -104,12 +113,8 @@ export default function TabOneScreen() {
       />
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
-          <View
-            style={{ width: 450, height: 100, flex: 1, justifyContent: "center", flexDirection: "row" }}
-          >
-            <Button onPress={() => setIsCome(true)}>
-              Доход
-            </Button>
+          <View style={{ width: 450, height: 100, flex: 1, justifyContent: "center", flexDirection: "row" }}>
+            <Button onPress={() => setIsCome(true)}>Доход</Button>
             <Button onPress={() => setIsCome(false)}>Рассход</Button>
           </View>
           <View>
@@ -119,19 +124,20 @@ export default function TabOneScreen() {
               onChangeText={text => setMoney(Number(text))}
               style={{ width: 500, height: 50 }}
             />
-            {isCome
-              ?
+            {isCome ? (
               <View>
                 <TextInput placeholder={"Комментарий"} style={{ width: 500, height: 50 }} />
               </View>
-              :
-              <View style={{width: 400}}>
+            ) : (
+              <View style={{ width: 400 }}>
                 <TextInput placeholder={"Комментарий"} style={{ width: 300, height: 50 }} />
                 <TextInput placeholder={"Категория"} style={{ width: 300, height: 50 }} />
               </View>
-            }
+            )}
           </View>
-          <Button onPress={handleAddNewElem} style={styles.addButton}>Добавить</Button>
+          <Button onPress={handleAddNewElem} style={styles.addButton}>
+            Добавить
+          </Button>
         </View>
       </AddModal>
     </SafeAreaView>
@@ -148,13 +154,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-
   },
   addButton: {
     flex: 1,
     width: 390,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     textAlign: "center",
   },
   title: {

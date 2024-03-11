@@ -4,7 +4,13 @@ import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useTheme } from "react-native-paper";
 
-const AddModal = ({ modalizeRef, children}: { modalizeRef: MutableRefObject<Modalize | undefined>, children: React.ReactNode}) => {
+const AddModal = ({
+  modalizeRef,
+  children,
+}: {
+  modalizeRef: MutableRefObject<Modalize | undefined>;
+  children: React.ReactNode;
+}) => {
   const theme = useTheme();
 
   return (
@@ -25,8 +31,8 @@ const AddModal = ({ modalizeRef, children}: { modalizeRef: MutableRefObject<Moda
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    paddingVertical: 100
+    alignItems: "center",
+    paddingVertical: 100,
   },
 });
 
