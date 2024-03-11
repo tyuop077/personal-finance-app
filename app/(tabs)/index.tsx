@@ -77,7 +77,7 @@ export default function TabOneScreen() {
           <Text>50000</Text>
         </View>
         <View style={styles.expensesContainer}>
-          <Text>Рассходы</Text>
+          <Text>Расходы</Text>
           <Text>100000</Text>
         </View>
       </SafeAreaView>
@@ -115,7 +115,7 @@ export default function TabOneScreen() {
         <View style={styles.modalContainer}>
           <View style={{ width: 450, height: 100, flex: 1, justifyContent: "center", flexDirection: "row" }}>
             <Button onPress={() => setIsCome(true)}>Доход</Button>
-            <Button onPress={() => setIsCome(false)}>Рассход</Button>
+            <Button onPress={() => setIsCome(false)}>Расход</Button>
           </View>
           <View>
             <TextInput
