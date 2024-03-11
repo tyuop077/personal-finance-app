@@ -14,15 +14,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
 import { Modalize } from "react-native-modalize";
 
-enum ElemType {
+enum FinanceType {
   INCOME = "Доход",
   EXPENSE = "Расход",
 }
 
-interface FinanceElem {
+interface FinanceItem {
   id: number;
-  elemType: ElemType;
-  money: number;
+  type: FinanceType;
+  value: number;
   comment?: string;
   category?: string;
   isExpense: boolean;
@@ -31,18 +31,18 @@ interface FinanceElem {
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
   const modalizeRef = useRef<Modalize>();
-  const [elems, setElems] = useState<FinanceElem[]>([
-    { id: 1, elemType: ElemType.EXPENSE, category: "еда", comment: "comment", isExpense: true, money: 1200 },
-    { id: 2, elemType: ElemType.EXPENSE, category: "еда", comment: "comment", isExpense: true, money: 1200 },
-    { id: 3, elemType: ElemType.EXPENSE, category: "еда", comment: "comment", isExpense: true, money: 1200 },
-    { id: 4, elemType: ElemType.EXPENSE, category: "еда", comment: "comment", isExpense: true, money: 1200 },
-    { id: 5, elemType: ElemType.EXPENSE, category: "еда", comment: "comment", isExpense: true, money: 1200 },
-    { id: 6, elemType: ElemType.INCOME, isExpense: false, money: 1000 },
-    { id: 7, elemType: ElemType.INCOME, isExpense: false, money: 20000 },
-    { id: 8, elemType: ElemType.INCOME, isExpense: false, money: 60000 },
-    { id: 9, elemType: ElemType.INCOME, isExpense: false, money: 500 },
+  const [items, setItems] = useState<FinanceItem[]>([
+    { id: 1, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
+    { id: 2, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
+    { id: 3, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
+    { id: 4, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
+    { id: 5, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
+    { id: 6, type: FinanceType.INCOME, isExpense: false, value: 1000 },
+    { id: 7, type: FinanceType.INCOME, isExpense: false, value: 20000 },
+    { id: 8, type: FinanceType.INCOME, isExpense: false, value: 60000 },
+    { id: 9, type: FinanceType.INCOME, isExpense: false, value: 500 },
   ]);
-  const [isCome, setIsCome] = useState<boolean>(false);
+  const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -56,15 +56,14 @@ export default function TabOneScreen() {
   };
 
   const handleAddNewElem = () => {
-    setElems([
-      ...elems,
+    setItems([
+      ...items,
       {
         id: Number(new Date()),
-        elemType: ElemType.EXPENSE,
+        type: FinanceType.EXPENSE,
         category: "еда",
-        comment: "",
-        isExpense: isCome,
-        money: money,
+        isExpense: isIncome,
+        value: money,
       },
     ]);
   };
@@ -82,7 +81,7 @@ export default function TabOneScreen() {
         </View>
       </SafeAreaView>
       <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
-        {elems.map(elem => (
+        {items.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
             <View style={styles.elemsEachContainerLeft}>
               {elem.isExpense ? (
@@ -97,7 +96,7 @@ export default function TabOneScreen() {
               )}
             </View>
             <View style={styles.elemsEachContainerRight}>
-              <Text>{elem.isExpense ? `-${elem.money}` : `+${elem.money}`}</Text>
+              <Text>{elem.isExpense ? `-${elem.value}` : `+${elem.value}`}</Text>
             </View>
           </View>
         ))}
@@ -114,24 +113,24 @@ export default function TabOneScreen() {
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
           <View style={{ width: 450, height: 100, flex: 1, justifyContent: "center", flexDirection: "row" }}>
-            <Button onPress={() => setIsCome(true)}>Доход</Button>
-            <Button onPress={() => setIsCome(false)}>Расход</Button>
+            <Button onPress={() => setIsIncome(true)}>Доход</Button>
+            <Button onPress={() => setIsIncome(false)}>Расход</Button>
           </View>
           <View>
             <TextInput
               autoFocus={true}
-              placeholder={"Введите сумму"}
+              placeholder="Введите сумму"
               onChangeText={text => setMoney(Number(text))}
               style={{ width: 500, height: 50 }}
             />
-            {isCome ? (
+            {isIncome ? (
               <View>
-                <TextInput placeholder={"Комментарий"} style={{ width: 500, height: 50 }} />
+                <TextInput placeholder="Комментарий" style={{ width: 500, height: 50 }} />
               </View>
             ) : (
               <View style={{ width: 400 }}>
-                <TextInput placeholder={"Комментарий"} style={{ width: 300, height: 50 }} />
-                <TextInput placeholder={"Категория"} style={{ width: 300, height: 50 }} />
+                <TextInput placeholder="Комментарий" style={{ width: 300, height: 50 }} />
+                <TextInput placeholder="Категория" style={{ width: 300, height: 50 }} />
               </View>
             )}
           </View>
