@@ -1,14 +1,6 @@
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import React, { useRef, useState } from "react";
-import { AnimatedFAB, Button } from "react-native-paper";
+import { AnimatedFAB, Button, TextInput } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -112,29 +104,25 @@ export default function TabOneScreen() {
       />
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
-          <View style={{ width: 450, height: 100, flex: 1, justifyContent: "center", flexDirection: "row" }}>
+          <View style={{ flexDirection: "row" }}>
             <Button onPress={() => setIsIncome(true)}>Доход</Button>
             <Button onPress={() => setIsIncome(false)}>Расход</Button>
           </View>
-          <View>
-            <TextInput
-              autoFocus={true}
-              placeholder="Введите сумму"
-              onChangeText={text => setMoney(Number(text))}
-              style={{ width: 500, height: 50 }}
-            />
-            {isIncome ? (
-              <View>
-                <TextInput placeholder="Комментарий" style={{ width: 500, height: 50 }} />
-              </View>
-            ) : (
-              <View style={{ width: 400 }}>
-                <TextInput placeholder="Комментарий" style={{ width: 300, height: 50 }} />
-                <TextInput placeholder="Категория" style={{ width: 300, height: 50 }} />
-              </View>
-            )}
-          </View>
-          <Button onPress={handleAddNewElem} style={styles.addButton}>
+          <TextInput
+            autoFocus={true}
+            mode="outlined"
+            placeholder="Введите сумму"
+            onChangeText={text => setMoney(Number(text))}
+          />
+          {isIncome ? (
+            <TextInput mode="outlined" placeholder="Комментарий" />
+          ) : (
+            <>
+              <TextInput mode="outlined" placeholder="Комментарий" />
+              <TextInput mode="outlined" placeholder="Категория" />
+            </>
+          )}
+          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
             Добавить
           </Button>
         </View>
@@ -151,8 +139,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    gap: 10,
   },
   addButton: {
     flex: 1,

@@ -32,7 +32,8 @@ const AddModal = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    paddingVertical: 100,
+    paddingTop: 10,
+    paddingBottom: 40,
   },
 });
 
