@@ -1,10 +1,16 @@
-import React, { MutableRefObject, useRef } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import React, { MutableRefObject } from "react";
+import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { Text, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 
-const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | undefined> }) => {
+const AddModal = ({
+  modalizeRef,
+  children,
+}: {
+  modalizeRef: MutableRefObject<Modalize | undefined>;
+  children: React.ReactNode;
+}) => {
   const theme = useTheme();
 
   return (
@@ -17,7 +23,7 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
         childrenStyle={styles.container}
         modalStyle={{ backgroundColor: theme.colors.background }}
       >
-        <Text>test</Text>
+        {children}
       </Modalize>
     </Portal>
   );
@@ -26,7 +32,8 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    paddingVertical: 40,
+    paddingTop: 10,
+    paddingBottom: 40,
   },
 });
 
