@@ -33,6 +33,10 @@ export default function TabOneScreen() {
     { id: 7, type: FinanceType.INCOME, isExpense: false, value: 20000 },
     { id: 8, type: FinanceType.INCOME, isExpense: false, value: 60000 },
     { id: 9, type: FinanceType.INCOME, isExpense: false, value: 500 },
+    { id: 10, type: FinanceType.INCOME, isExpense: false, value: 500 },
+    { id: 11, type: FinanceType.INCOME, isExpense: false, value: 500 },
+    { id: 12, type: FinanceType.INCOME, isExpense: false, value: 500 },
+    { id: 13, type: FinanceType.INCOME, isExpense: false, value: 500 },
   ]);
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
@@ -62,7 +66,7 @@ export default function TabOneScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SafeAreaView style={styles.financeContainer}>
+      <View style={styles.financeContainer}>
         <View style={styles.incomesContainer}>
           <Text>Доходы</Text>
           <Text>50000</Text>
@@ -71,7 +75,7 @@ export default function TabOneScreen() {
           <Text>Расходы</Text>
           <Text>100000</Text>
         </View>
-      </SafeAreaView>
+      </View>
       <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
         {items.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
@@ -164,35 +168,23 @@ const styles = StyleSheet.create({
   },
   financeContainer: {
     flex: 1,
-    width: 410,
-    height: 100,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "white",
   },
   incomesContainer: {
     flex: 1,
     alignItems: "center",
-    width: 200,
-    height: 100,
   },
   expensesContainer: {
     flex: 1,
     alignItems: "center",
-    width: 200,
-    height: 100,
   },
   elemsContainer: {
     display: "flex",
-    width: 410,
+    margin: 10,
   },
   elemsEachContainer: {
     flex: 1,
     width: "100%",
     flexDirection: "row",
-    height: 50,
     marginBottom: 8,
   },
   elemsEachContainerRight: {
