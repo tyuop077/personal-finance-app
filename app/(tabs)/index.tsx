@@ -1,10 +1,11 @@
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnimatedFAB, Button, TextInput } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
 import { Modalize } from "react-native-modalize";
+import { useRootStore } from "@/hooks/useRootStore";
 
 enum FinanceType {
   INCOME = "Доход",
@@ -23,6 +24,7 @@ interface FinanceItem {
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
   const modalizeRef = useRef<Modalize>();
+  const {finances} = useRootStore()
   const [items, setItems] = useState<FinanceItem[]>([
     { id: 1, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
     { id: 2, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
@@ -46,6 +48,10 @@ export default function TabOneScreen() {
 
     setIsExtended(currentScrollPosition <= 0);
   };
+
+  useEffect(() => {
+    finances.getFinances();
+  }, []);
 
   const handleAdd = () => {
     modalizeRef.current?.open();
