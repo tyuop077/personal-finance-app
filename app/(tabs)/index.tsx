@@ -24,7 +24,7 @@ interface FinanceItem {
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
   const modalizeRef = useRef<Modalize>();
-  const {finances} = useRootStore()
+  const { finances } = useRootStore();
   const [items, setItems] = useState<FinanceItem[]>([
     { id: 1, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
     { id: 2, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },

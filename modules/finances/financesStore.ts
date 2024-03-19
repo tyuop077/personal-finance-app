@@ -1,7 +1,6 @@
-import {makeAutoObservable} from 'mobx';
+import { makeAutoObservable } from "mobx";
 import Finances from "@/modules/finances/finances";
 import FinancesService from "@/modules/finances/financesService";
-
 
 export class FinancesStore {
   loading = false;
@@ -27,9 +26,9 @@ export class FinancesStore {
 
     this.service.createFinance({
       _id: 1,
-      type: 'Test',
-      category: 'testeda',
-      comment: 'test comm',
+      type: "Test",
+      category: "testeda",
+      comment: "test comm",
       isExpense: true,
       value: 4000,
     });

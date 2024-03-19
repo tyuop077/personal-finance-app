@@ -1,8 +1,7 @@
-import Realm, {ObjectSchema} from 'realm';
+import Realm, { ObjectSchema } from "realm";
 import BSON = Realm.BSON;
 
-export const FinancesTable = 'Finances';
-
+export const FinancesTable = "Finances";
 
 export default class Finances extends Realm.Object<Finances> {
   private _id!: BSON.ObjectId;
@@ -15,13 +14,13 @@ export default class Finances extends Realm.Object<Finances> {
   static schema: ObjectSchema = {
     name: FinancesTable,
     properties: {
-      _id: 'objectId',
-      type: 'string',
-      category: 'string',
-      comment: 'string',
-      isExpense: 'boolean',
+      _id: "objectId",
+      type: "string",
+      category: "string",
+      comment: "string",
+      isExpense: "boolean",
       value: "number",
     },
-    primaryKey: '_id',
+    primaryKey: "_id",
   };
 }

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import { FinancesStore } from "@/modules/finances/financesStore";
 
 class RootStore {
-  finances: FinancesStore
+  finances: FinancesStore;
 
   constructor() {
     this.finances = new FinancesStore();

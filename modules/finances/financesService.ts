@@ -1,7 +1,6 @@
 import { RealmClient } from "@/realm/realmClient";
 import Finances, { FinancesTable } from "@/modules/finances/finances";
 
-
 export default class FinancesService {
   getFinances = () => {
     return RealmClient.objects(FinancesTable) as unknown as Finances[];
