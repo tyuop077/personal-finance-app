@@ -22,7 +22,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
 import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
 import * as NavigationBar from "expo-navigation-bar";
-import {RealmProvider} from '@realm/react';
+import { RealmProvider } from "@realm/react";
+import Finances from "@/modules/finances/finances";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -115,7 +116,7 @@ function RootLayoutNav() {
   });
 
   return (
-    <RealmProvider>
+    <RealmProvider schema={[Finances]}>
       <PaperProvider
         theme={md3Theme}
         settings={{

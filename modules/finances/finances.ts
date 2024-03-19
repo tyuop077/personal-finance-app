@@ -1,23 +1,28 @@
-import Realm, { ObjectSchema } from "realm";
+import Realm from "realm";
 import BSON = Realm.BSON;
 
-export const FinancesTable = "Finances";
+enum FinanceType {
+  INCOME = "Доход",
+  EXPENSE = "Расход",
+}
+
+const FinancesTable = "Finances";
 
 export default class Finances extends Realm.Object<Finances> {
   private _id!: BSON.ObjectId;
-  public type: string;
-  public category: string;
-  public comment: string;
-  public isExpense: boolean;
-  public value: number;
+  type!: FinanceType;
+  category?: string;
+  comment?: string;
+  isExpense!: boolean;
+  value!: number;
 
-  static schema: ObjectSchema = {
+  static schema: Realm.ObjectSchema = {
     name: FinancesTable,
     properties: {
       _id: "objectId",
       type: "string",
-      category: "string",
-      comment: "string",
+      category: "string?",
+      comment: "string?",
       isExpense: "boolean",
       value: "number",
     },
