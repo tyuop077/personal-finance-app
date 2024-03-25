@@ -1,10 +1,11 @@
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import React, { useRef, useState } from "react";
-import { AnimatedFAB, Button, TextInput } from "react-native-paper";
+import React, { useEffect, useRef, useState } from "react";
+import { AnimatedFAB, Button, TextInput, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
 import { Modalize } from "react-native-modalize";
+import { fixed } from "ansi-fragments";
 
 enum FinanceType {
   INCOME = "Доход",
@@ -40,6 +41,7 @@ export default function TabOneScreen() {
   ]);
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
+  const theme = useTheme();
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -66,16 +68,16 @@ export default function TabOneScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.financeContainer}>
+      <SafeAreaView style={styles.financeContainer}>
         <View style={styles.incomesContainer}>
-          <Text>Доходы</Text>
-          <Text>50000</Text>
+          <Text style={{color: theme.colors.primary}}>Доходы</Text>
+          <Text>{items.reduce((acc, val) => !val.isExpense ? acc + val.value : acc, 0)}</Text>
         </View>
         <View style={styles.expensesContainer}>
-          <Text>Расходы</Text>
-          <Text>100000</Text>
+          <Text style={{color: theme.colors.error}}>Расходы</Text>
+          <Text>{items.reduce((acc, val) => val.isExpense ? acc + val.value : acc, 0)}</Text>
         </View>
-      </View>
+      </SafeAreaView>
       <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
         {items.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
@@ -92,7 +94,7 @@ export default function TabOneScreen() {
               )}
             </View>
             <View style={styles.elemsEachContainerRight}>
-              <Text>{elem.isExpense ? `-${elem.value}` : `+${elem.value}`}</Text>
+              <Text>{elem.isExpense ? `+${elem.value}` : `-${elem.value}`}</Text>
             </View>
           </View>
         ))}
@@ -109,8 +111,8 @@ export default function TabOneScreen() {
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)}>Расход</Button>
+            <Button onPress={() => setIsIncome(false)}>Доход</Button>
+            <Button onPress={() => setIsIncome(true)}>Расход</Button>
           </View>
           <TextInput
             autoFocus={true}
@@ -139,7 +141,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    gap: 10,
+    justifyContent: 'space-between',
+    gap: 100,
   },
   modalContainer: {
     flex: 1,
@@ -159,7 +162,6 @@ const styles = StyleSheet.create({
   separator: {
     marginVertical: 30,
     height: 1,
-    width: "80%",
   },
   fabStyle: {
     bottom: 16,
@@ -168,6 +170,8 @@ const styles = StyleSheet.create({
   },
   financeContainer: {
     flex: 1,
+    alignItems: 'center',
+    flexDirection: "row",
   },
   incomesContainer: {
     flex: 1,
@@ -183,9 +187,12 @@ const styles = StyleSheet.create({
   },
   elemsEachContainer: {
     flex: 1,
-    width: "100%",
+    gap: 8,
     flexDirection: "row",
     marginBottom: 8,
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    borderBottomColor: "rgb(151, 240, 255)"
   },
   elemsEachContainerRight: {
     flex: 1,
