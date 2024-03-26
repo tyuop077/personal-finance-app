@@ -1,4 +1,4 @@
-import React from "react";
-import { storesContext } from "@/store/store";
+import { useContext } from "react";
+import { storesContext } from "@/RootStore";
 
-export const useRootStore = () => React.useContext(storesContext);
+export const useRootStore = () => useContext(storesContext);
