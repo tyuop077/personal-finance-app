@@ -22,8 +22,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
 import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
 import * as NavigationBar from "expo-navigation-bar";
-import { RealmProvider } from "@realm/react";
-import Finances from "@/modules/finances/finances";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -116,44 +114,42 @@ function RootLayoutNav() {
   });
 
   return (
-    <RealmProvider schema={[Finances]}>
-      <PaperProvider
-        theme={md3Theme}
-        settings={{
-          icon: (props: IconPropsRoot) => {
-            let [provider, icon] = props.name.split("/");
-            if (!icon) {
-              icon = provider;
-              provider = "material-community";
-            }
-            const iconProps = { ...props, name: icon };
-            switch (provider) {
-              case "awesome":
-                // @ts-ignore
-                return <AwesomeIcon {...iconProps} />;
-              case "material-community":
-                // @ts-ignore
-                return <MaterialCommunityIcons {...iconProps} />;
-              case "feather":
-                // @ts-ignore
-                return <FeatherIcons {...iconProps} />;
-            }
-          },
-        }}
-      >
-        <ThemeProvider value={colorScheme === "light" ? LightTheme : DarkTheme}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
-            <PortalizeHost>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
-                <Stack.Screen name="settings" options={{ headerShown: false }} />
-              </Stack>
-            </PortalizeHost>
-          </GestureHandlerRootView>
-        </ThemeProvider>
-      </PaperProvider>
-    </RealmProvider>
+    <PaperProvider
+      theme={md3Theme}
+      settings={{
+        icon: (props: IconPropsRoot) => {
+          let [provider, icon] = props.name.split("/");
+          if (!icon) {
+            icon = provider;
+            provider = "material-community";
+          }
+          const iconProps = { ...props, name: icon };
+          switch (provider) {
+            case "awesome":
+              // @ts-ignore
+              return <AwesomeIcon {...iconProps} />;
+            case "material-community":
+              // @ts-ignore
+              return <MaterialCommunityIcons {...iconProps} />;
+            case "feather":
+              // @ts-ignore
+              return <FeatherIcons {...iconProps} />;
+          }
+        },
+      }}
+    >
+      <ThemeProvider value={colorScheme === "light" ? LightTheme : DarkTheme}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
+          <PortalizeHost>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
+              <Stack.Screen name="settings" options={{ headerShown: false }} />
+            </Stack>
+          </PortalizeHost>
+        </GestureHandlerRootView>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
