@@ -3,8 +3,10 @@ import { Appbar, Button, Menu, Text } from "react-native-paper";
 import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
+import { useRootStore } from "@/hooks/useRootStore";
 
 export default function StatsPage() {
+  const { finances } = useRootStore();
   const [visible, setVisible] = useState(false);
 
   const handleOpenMenu = () => setVisible(true);
@@ -20,6 +22,11 @@ export default function StatsPage() {
     setVisible(false);
   };
 
+  const handleReset = () => {
+    finances.financeRepository.removeAll();
+    finances.financeModel.items = [];
+  };
+
   return (
     <>
       <Appbar.Header>
@@ -29,6 +36,7 @@ export default function StatsPage() {
           onDismiss={handleCloseMenu}
           anchor={<Appbar.Action icon="feather/more-vertical" onPress={handleOpenMenu} />}
         >
+          <Menu.Item title="Сбросить состояние" onPress={handleReset} />
           <Menu.Item title="Настройки" onPress={handleSettings} />
         </Menu>
       </Appbar.Header>
