@@ -146,6 +146,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     gap: 10,
+    margin: "5%",
+    marginBottom: 0,
   },
   modalContainer: {
     flex: 1,
@@ -177,20 +179,19 @@ const styles = StyleSheet.create({
   },
   incomesContainer: {
     flex: 1,
-    alignItems: "center",
   },
   expensesContainer: {
     flex: 1,
-    alignItems: "center",
   },
   elemsContainer: {
     display: "flex",
-    margin: 10,
+    width: "100%",
+    top: 100,
   },
   elemsEachContainer: {
     flex: 1,
-    width: "100%",
     flexDirection: "row",
+    height: "100%",
     marginBottom: 8,
   },
   elemsEachContainerRight: {
