@@ -73,13 +73,9 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.financeContainer}>
-        <View style={styles.incomesContainer}>
-          <Text>Доходы</Text>
-          <Text>50000</Text>
-        </View>
-        <View style={styles.expensesContainer}>
-          <Text>Расходы</Text>
-          <Text>100000</Text>
+        <View style={styles.balanceContainer}>
+          <Text style={styles.balanceTitle}>Баланс</Text>
+          <Text style={styles.balanceValue}>50000</Text>
         </View>
       </View>
       <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
@@ -176,12 +172,17 @@ const styles = StyleSheet.create({
   },
   financeContainer: {
     flex: 1,
+    position: "absolute",
+    height: "100%"
   },
-  incomesContainer: {
-    flex: 1,
+  balanceContainer: {
+    marginTop: "10%"
   },
-  expensesContainer: {
-    flex: 1,
+  balanceTitle: {
+    fontSize: 15
+  },
+  balanceValue: {
+    fontSize: 30
   },
   elemsContainer: {
     display: "flex",
