@@ -1,6 +1,6 @@
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { AnimatedFAB, Button, TextInput } from "react-native-paper";
+import { FAB, Button, TextInput } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -14,11 +14,11 @@ enum FinanceType {
 
 interface FinanceItem {
   id: number;
+  title: string;
   type: FinanceType;
   value: number;
   comment?: string;
   category?: string;
-  isExpense: boolean;
 }
 
 export default function TabOneScreen() {
@@ -26,22 +26,24 @@ export default function TabOneScreen() {
   const modalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
   const [items, setItems] = useState<FinanceItem[]>([
-    { id: 1, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
-    { id: 2, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
-    { id: 3, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
-    { id: 4, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
-    { id: 5, type: FinanceType.EXPENSE, category: "еда", comment: "comment", isExpense: true, value: 1200 },
-    { id: 6, type: FinanceType.INCOME, isExpense: false, value: 1000 },
-    { id: 7, type: FinanceType.INCOME, isExpense: false, value: 20000 },
-    { id: 8, type: FinanceType.INCOME, isExpense: false, value: 60000 },
-    { id: 9, type: FinanceType.INCOME, isExpense: false, value: 500 },
-    { id: 10, type: FinanceType.INCOME, isExpense: false, value: 500 },
-    { id: 11, type: FinanceType.INCOME, isExpense: false, value: 500 },
-    { id: 12, type: FinanceType.INCOME, isExpense: false, value: 500 },
-    { id: 13, type: FinanceType.INCOME, isExpense: false, value: 500 },
+    { id: 1, title: "Обед на работе", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200 },
+    { id: 2, title: "Батончик", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200 },
+    { id: 3, title: "Затарился в Ашане", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200 },
+    { id: 4, title: "Орехи из лавки", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200 },
+    { id: 5, title: "Поужинал в ресторане", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200 },
+    { id: 6, title: "Лукойл", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 1000 },
+    { id: 7, title: "Иванов А.П.", type: FinanceType.INCOME, category: "Фриланс", comment: "comment", value: 20000 },
+    { id: 8, title: "ЗП АК БАРС", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 60000 },
+    { id: 9, title: "Сургутнефтегаз", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 500 },
+    { id: 10, title: "Соколов В. А.", type: FinanceType.INCOME, category: "Фриланс", comment: "comment", value: 500 },
+    { id: 11, title: "Зарплата КФУ", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 500 },
+    { id: 12, title: "Зарплата КФУ", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 500 },
+    { id: 13, title: "Позитив", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 500 },
   ]);
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -62,9 +64,9 @@ export default function TabOneScreen() {
       ...items,
       {
         id: Number(new Date()),
+        title: title,
         type: FinanceType.EXPENSE,
         category: "еда",
-        isExpense: isIncome,
         value: money,
       },
     ]);
@@ -73,45 +75,36 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.financeContainer}>
-        <View style={styles.incomesContainer}>
-          <Text>Доходы</Text>
-          <Text>50000</Text>
-        </View>
-        <View style={styles.expensesContainer}>
-          <Text>Расходы</Text>
-          <Text>100000</Text>
+        <View style={styles.balanceContainer}>
+          <Text style={styles.balanceTitle}>Баланс</Text>
+          <Text style={styles.balanceValue}>50000</Text>
         </View>
       </View>
       <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
         {items.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
             <View style={styles.elemsEachContainerLeft}>
-              {elem.isExpense ? (
-                <View>
-                  <Text>{elem.category}</Text>
-                  <Text>{elem.comment}</Text>
-                </View>
-              ) : (
-                <View>
-                  <Text>Доход</Text>
-                </View>
-              )}
+              <View>
+                <Text style={styles.transactionTitle}>{elem.title}</Text>
+              </View>
+              <View>
+                <Text style={styles.transactionCategory}>{elem.category}</Text>
+              </View>
             </View>
             <View style={styles.elemsEachContainerRight}>
-              <Text>{elem.isExpense ? `-${elem.value}` : `+${elem.value}`}</Text>
+                <Text style={styles.transactionValue}>{elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}</Text>
+                <Text style={styles.transactionCurrency}>₽</Text>
             </View>
           </View>
         ))}
       </ScrollView>
-      <AnimatedFAB
+      <FAB
         icon="plus"
-        label="Добавить"
-        extended={isExtended}
+        mode={"elevated"}
         onPress={handleAdd}
-        animateFrom="right"
-        iconMode="dynamic"
+        animated={false}
         style={[styles.fabStyle]}
-      />
+        />
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
@@ -132,9 +125,7 @@ export default function TabOneScreen() {
               <TextInput mode="outlined" placeholder="Категория" />
             </>
           )}
-          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
-            Добавить
-          </Button>
+          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>Добавить</Button>
         </View>
       </AddModal>
     </SafeAreaView>
@@ -146,6 +137,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     gap: 10,
+    margin: "5%",
+    marginBottom: 0,
   },
   modalContainer: {
     flex: 1,
@@ -162,46 +155,65 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
   fabStyle: {
-    bottom: 16,
-    right: 16,
+    bottom: "10%",
+    right: "15%",
+    borderRadius: 30,
     position: "absolute",
   },
   financeContainer: {
     flex: 1,
+    position: "absolute",
+    height: "100%"
   },
-  incomesContainer: {
-    flex: 1,
-    alignItems: "center",
+  balanceContainer: {
+    marginTop: "10%"
   },
-  expensesContainer: {
-    flex: 1,
-    alignItems: "center",
+  balanceTitle: {
+    fontSize: 15
+  },
+  balanceValue: {
+    fontSize: 30
   },
   elemsContainer: {
     display: "flex",
-    margin: 10,
+    width: "100%",
+    top: 100,
   },
   elemsEachContainer: {
     flex: 1,
-    width: "100%",
     flexDirection: "row",
+    height: "100%",
     marginBottom: 8,
-  },
-  elemsEachContainerRight: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center",
   },
   elemsEachContainerLeft: {
     flex: 1,
     alignItems: "flex-start",
-    justifyContent: "center",
-    paddingLeft: 5,
+    backgroundColor: "red",
+    width: 1000,
+    flexDirection: "column",
   },
+  transactionTitle: {
+    fontSize: 16,
+    backgroundColor: "blue"
+  },
+  transactionCategory: {
+    fontSize: 13
+  },
+  elemsEachContainerRight: {
+    flex: 1,
+    alignItems: "flex-start",
+    flexDirection: "row",
+    width: "30%",
+    backgroundColor: "yellow",
+    justifyContent: "flex-end",
+  },
+  transactionValue: {
+    fontSize: 16,
+  },
+  transactionCurrency: {
+    marginLeft: 3,
+    fontSize: 16,
+  },
+
 });
