@@ -85,3 +85,9 @@ export const DarkColors = {
   onSurfaceDisabled: "rgba(225, 227, 227, 0.38)",
   backdrop: "rgba(41, 50, 52, 0.4)",
 } as MD3Theme["colors"];
+
+
+export const GraphColors = [
+  "#57A639", "#DC9D00", "#641C34", "#D53032", "#0E294B", "#721422", "#474A51", "#642424", "#1E2460",
+  "#FE0000", "#F8F32B", "#721422", "#CB3234", "#063971", "#E6D690"
+]

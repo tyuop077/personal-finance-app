@@ -4,6 +4,9 @@ import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
 import { useRootStore } from "@/hooks/useRootStore";
+import { Tabs, TabScreen, TabsProvider } from "react-native-paper-tabs";
+import Revenues from "@/app/(tabs)/stats/revenues";
+import Expenses from "@/app/(tabs)/stats/expenses";
 
 export default function StatsPage() {
   const { finances } = useRootStore();
@@ -40,13 +43,16 @@ export default function StatsPage() {
           <Menu.Item title="Настройки" onPress={handleSettings} />
         </Menu>
       </Appbar.Header>
-      <View style={styles.container}>
-        <Text style={styles.title}>Статистика</Text>
-        <Button mode="contained-tonal" icon="history" onPress={handleTestButton}>
-          test modal
-        </Button>
-        <TestBanner />
-      </View>
+      <TabsProvider defaultIndex={0}>
+        <Tabs>
+          <TabScreen label="Расходы">
+            <Expenses/>
+          </TabScreen>
+          <TabScreen label="Доходы">
+            <Revenues/>
+          </TabScreen>
+        </Tabs>
+      </TabsProvider>
     </>
   );
 }
