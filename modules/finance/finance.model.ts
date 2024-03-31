@@ -10,6 +10,7 @@ export interface FinanceItem {
   comment?: string;
   category?: string;
   isExpense: boolean;
+  date: Date;
 }
 
 export class FinanceModel {
