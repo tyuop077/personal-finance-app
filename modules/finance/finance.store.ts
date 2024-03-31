@@ -57,4 +57,8 @@ export class FinanceStore {
     this.financeModel = this.financeService.deleteFinanceItem(this.financeModel, itemId);
     await this.financeRepository.setItems(this.financeModel.items);
   }
+
+  getFinanceItemsByDateRange(isExpense: boolean, startDate: Date, endDate: Date) {
+    return this.financeService.getFinanceItemsByDateRange(this.financeModel, isExpense, startDate, endDate);
+  }
 }

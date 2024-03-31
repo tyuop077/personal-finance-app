@@ -45,11 +45,11 @@ export default function StatsPage() {
       </Appbar.Header>
       <TabsProvider defaultIndex={0}>
         <Tabs>
-          <TabScreen label="Доходы">
-            <Revenues/>
-          </TabScreen>
           <TabScreen label="Расходы">
             <Expenses/>
+          </TabScreen>
+          <TabScreen label="Доходы">
+            <Revenues/>
           </TabScreen>
         </Tabs>
       </TabsProvider>
