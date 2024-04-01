@@ -1,8 +1,7 @@
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { Text, List, useTheme } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
-import { List } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
 import { GraphColors } from "@/constants/Colors";
@@ -28,9 +27,10 @@ export default function Stats({ tempData, isExpense }: Props) {
   const [sum, setSum] = useState(0);
   const [graphData, setGraphData] = useState<pieDataItem[]>([]);
   const [categoryData, setCategoryData] = useState<CategoryDataItem[]>([]);
-  const theme = useTheme();
 
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const theme = useTheme();
 
   useEffect(() => {
     // finances.getFinances();
@@ -98,7 +98,7 @@ export default function Stats({ tempData, isExpense }: Props) {
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.baseContainer}>
-        <Text style={{ fontSize: 24 }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
+        <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
         <View style={styles.container}>
           <PieChart
             data={graphData.length == 0 ? emptyData : graphData}
@@ -120,7 +120,7 @@ export default function Stats({ tempData, isExpense }: Props) {
           />
         </View>
         <View>
-          <Text style={styles.title}>Категории</Text>
+          <Text style={[styles.title, {color: theme.colors.onBackground}]}>Категории</Text>
           <List.Section>
             {categoryData.length == 0 ? (
               <List.Item title="Нет расходов" />
@@ -139,7 +139,7 @@ export default function Stats({ tempData, isExpense }: Props) {
                       <View style={[styles.circle, { backgroundColor: item.color }]} />
                     </View>
                   )}
-                  right={() => <Text>{item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>}
+                  right={() => <Text style={[{color: theme.colors.onBackground}]}>{item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>}
                 />
               ))
             )}
