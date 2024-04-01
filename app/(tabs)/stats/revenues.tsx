@@ -6,9 +6,10 @@ import Stats from "@/components/Stats";
 export default function Revenues() {
   return (
     <Stats
-      tempData={new Map<string | undefined, FinanceItem[]>(
-        [
-          ["Зарплата",
+      tempData={
+        new Map<string | undefined, FinanceItem[]>([
+          [
+            "Зарплата",
             [
               {
                 id: 1,
@@ -40,7 +41,8 @@ export default function Revenues() {
               },
             ],
           ],
-        ])}
+        ])
+      }
       isExpense={false}
     />
   );

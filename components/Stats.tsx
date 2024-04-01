@@ -91,16 +91,10 @@ export default function Stats({ tempData, isExpense }: Props) {
     }
   };
 
-
-  const emptyData = [
-    { value: 100, color: "#808080" },
-  ];
-
+  const emptyData = [{ value: 100, color: "#808080" }];
 
   return (
-    <ScrollView
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.baseContainer}>
         <Text style={{ fontSize: 24 }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
         <View style={styles.container}>
@@ -123,30 +117,27 @@ export default function Stats({ tempData, isExpense }: Props) {
         <View>
           <Text style={styles.title}>Категории</Text>
           <List.Section>
-            {categoryData.length == 0 ?
+            {categoryData.length == 0 ? (
               <List.Item title="Нет расходов" />
-              :
+            ) : (
               categoryData.map(item => (
-                <List.Item title={item.category} key={item.id}
-                           description=
-                             {(
-                               <Text>
-                                 {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
-                               </Text>
-                             )}
-                           left={() =>
-                             <View style={styles.container}>
-                               <View style={[styles.circle, { backgroundColor: item.color }]} />
-                             </View>
-                           }
-                           right={() =>
-                             <Text>
-                               {item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
-                             </Text>
-                           }
+                <List.Item
+                  title={item.category}
+                  key={item.id}
+                  description={
+                    <Text>
+                      {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
+                    </Text>
+                  }
+                  left={() => (
+                    <View style={styles.container}>
+                      <View style={[styles.circle, { backgroundColor: item.color }]} />
+                    </View>
+                  )}
+                  right={() => <Text>{item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>}
                 />
               ))
-            }
+            )}
           </List.Section>
         </View>
       </View>
