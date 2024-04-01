@@ -175,15 +175,13 @@ const styles = StyleSheet.create({
   },
   elemsContainer: {
     display: "flex",
-    marginLeft: "5%",
-    marginRight: "5%",
     top: "32%",
   },
   elemsEachContainer: {
     flex: 1,
     flexDirection: "row",
-    marginBottom: "3%",
-    marginTop: "3%",
+    marginVertical: 10,
+    paddingHorizontal: 10,
   },
   elemsEachContainerLeft: {
     flex: 3,
