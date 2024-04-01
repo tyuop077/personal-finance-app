@@ -49,26 +49,30 @@ export default function TabOneScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.financeContainer, { backgroundColor: theme.colors.tertiaryContainer }]}>
-        <View style={[styles.balanceContainer, { backgroundColor: theme.colors.secondaryContainer }]}>
-          <Text style={[styles.balanceTitle, { color: theme.colors.onSecondaryContainer }]}>Баланс</Text>
-          <Text style={[styles.balanceValue, { color: theme.colors.onSecondaryContainer }]}>50000</Text>
-        </View>
-      </View>
-      <ScrollView style={styles.elemsContainer} onScroll={onScroll}>
-        {items.map(elem => (
-          <View key={elem.id} style={styles.elemsEachContainer}>
-            <View style={styles.elemsEachContainerLeft}>
-              <Text style={styles.transactionTitle}>{elem.title}</Text>
-              <Text style={styles.transactionCategory}>{elem.category}</Text>
-            </View>
-            <View style={styles.elemsEachContainerRight}>
-              <Text style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
-                {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}₽
-              </Text>
-            </View>
+      <ScrollView onScroll={onScroll}>
+        <View style={styles.financeContainer}>
+          <View style={[styles.balanceContainer, { backgroundColor: theme.colors.secondaryContainer }]}>
+            <Text style={[styles.balanceTitle, { color: theme.colors.onSecondaryContainer }]}>Баланс</Text>
+            <Text style={[styles.balanceValue, { color: theme.colors.onSecondaryContainer }]}>50000</Text>
           </View>
-        ))}
+        </View>
+        <View style={styles.elemsContainer}>
+          {items.map(elem => (
+            <View key={elem.id} style={styles.elemsEachContainer}>
+              <View style={styles.elemsEachContainerLeft}>
+                <Text style={styles.transactionTitle}>{elem.title}</Text>
+                <Text style={styles.transactionCategory}>{elem.category}</Text>
+              </View>
+              <View style={styles.elemsEachContainerRight}>
+                <Text
+                  style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
+                >
+                  {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}₽
+                </Text>
+              </View>
+            </View>
+          ))}
+        </View>
       </ScrollView>
       <AnimatedFAB
         icon="plus"
@@ -137,31 +141,20 @@ const styles = StyleSheet.create({
   },
   financeContainer: {
     flex: 1,
-    position: "absolute",
-    width: "100%",
-    height: "35%",
-    backgroundColor: "#E3E4E0",
-    marginBottom: 0,
+    padding: 15,
   },
   balanceContainer: {
-    backgroundColor: "white",
-    padding: "7%",
-    marginTop: "20%",
-    marginLeft: "5%",
-    marginRight: "5%",
     borderRadius: 25,
+    padding: 15,
   },
   balanceTitle: {
     fontSize: 15,
-    color: "black",
   },
   balanceValue: {
     fontSize: 30,
-    color: "black",
   },
   elemsContainer: {
     display: "flex",
-    top: "30%",
   },
   elemsEachContainer: {
     flex: 1,
