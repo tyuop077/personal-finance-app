@@ -1,6 +1,6 @@
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { FAB, Button, TextInput } from "react-native-paper";
+import { FAB, Button, TextInput, AnimatedFAB } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -27,24 +27,127 @@ export default function TabOneScreen() {
   const modalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
   const [items, setItems] = useState<FinanceItem[]>([
-    { id: 1, title: "Обед на работе", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200, date: new Date(Date.now()) },
-    { id: 2, title: "Батончик", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200, date: new Date(Date.now()) },
-    { id: 3, title: "Затарился в Ашане", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200, date: new Date(Date.now()) },
-    { id: 4, title: "Орехи из лавки", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200, date: new Date(Date.now()) },
-    { id: 5, title: "Поужинал в ресторане", type: FinanceType.EXPENSE, category: "Еда", comment: "comment", value: 1200, date: new Date(Date.now()) },
-    { id: 6, title: "Лукойл", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 1000, date: new Date(Date.now()) },
-    { id: 7, title: "Иванов А.П.", type: FinanceType.INCOME, category: "Фриланс", comment: "comment", value: 20000, date: new Date(Date.now()) },
-    { id: 8, title: "ЗП АК БАРС", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 60000, date: new Date(Date.now()) },
-    { id: 9, title: "Сургутнефтегаз", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 500, date: new Date(Date.now()) },
-    { id: 10, title: "Соколов В. А.", type: FinanceType.INCOME, category: "Фриланс", comment: "comment", value: 500, date: new Date(Date.now()) },
-    { id: 11, title: "Зарплата КФУ", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 500, date: new Date(Date.now()) },
-    { id: 12, title: "Зарплата КФУ", type: FinanceType.INCOME, category: "Зарплата", comment: "comment", value: 500, date: new Date(Date.now()) },
-    { id: 13, title: "Позитив", type: FinanceType.INCOME, category: "Дивиденды", comment: "comment", value: 500, date: new Date(Date.now()) },
+    {
+      id: 1,
+      title: "Обед на работе",
+      type: FinanceType.EXPENSE,
+      category: "Еда",
+      comment: "comment",
+      value: 1200,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 2,
+      title: "Батончик",
+      type: FinanceType.EXPENSE,
+      category: "Еда",
+      comment: "comment",
+      value: 1200,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 3,
+      title: "Затарился в Ашане",
+      type: FinanceType.EXPENSE,
+      category: "Еда",
+      comment: "comment",
+      value: 1200,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 4,
+      title: "Орехи из лавки",
+      type: FinanceType.EXPENSE,
+      category: "Еда",
+      comment: "comment",
+      value: 1200,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 5,
+      title: "Поужинал в ресторане",
+      type: FinanceType.EXPENSE,
+      category: "Еда",
+      comment: "comment",
+      value: 1200,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 6,
+      title: "Лукойл",
+      type: FinanceType.INCOME,
+      category: "Дивиденды",
+      comment: "comment",
+      value: 1000,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 7,
+      title: "Иванов А.П.",
+      type: FinanceType.INCOME,
+      category: "Фриланс",
+      comment: "comment",
+      value: 20000,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 8,
+      title: "ЗП АК БАРС",
+      type: FinanceType.INCOME,
+      category: "Зарплата",
+      comment: "comment",
+      value: 60000,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 9,
+      title: "Сургутнефтегаз",
+      type: FinanceType.INCOME,
+      category: "Дивиденды",
+      comment: "comment",
+      value: 500,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 10,
+      title: "Соколов В. А.",
+      type: FinanceType.INCOME,
+      category: "Фриланс",
+      comment: "comment",
+      value: 500,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 11,
+      title: "Зарплата КФУ",
+      type: FinanceType.INCOME,
+      category: "Зарплата",
+      comment: "comment",
+      value: 500,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 12,
+      title: "Зарплата КФУ",
+      type: FinanceType.INCOME,
+      category: "Зарплата",
+      comment: "comment",
+      value: 500,
+      date: new Date(Date.now()),
+    },
+    {
+      id: 13,
+      title: "Позитив",
+      type: FinanceType.INCOME,
+      category: "Дивиденды",
+      comment: "comment",
+      value: 500,
+      date: new Date(Date.now()),
+    },
   ]);
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
-
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -69,7 +172,7 @@ export default function TabOneScreen() {
         type: FinanceType.EXPENSE,
         category: "еда",
         value: money,
-        date: new Date(Date.now())
+        date: new Date(Date.now()),
       },
     ]);
   };
@@ -94,19 +197,35 @@ export default function TabOneScreen() {
               </View>
             </View>
             <View style={styles.elemsEachContainerRight}>
-                <Text style={elem.type == FinanceType.EXPENSE ? styles.transactionValueIfExpense : styles.transactionValueIfIncome}>{elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}</Text>
-                <Text style={elem.type == FinanceType.EXPENSE ? styles.transactionCurrencyIfExpense : styles.transactionCurrencyIfIncome}>₽</Text>
+              <Text
+                style={
+                  elem.type == FinanceType.EXPENSE ? styles.transactionValueIfExpense : styles.transactionValueIfIncome
+                }
+              >
+                {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
+              </Text>
+              <Text
+                style={
+                  elem.type == FinanceType.EXPENSE
+                    ? styles.transactionCurrencyIfExpense
+                    : styles.transactionCurrencyIfIncome
+                }
+              >
+                ₽
+              </Text>
             </View>
           </View>
         ))}
       </ScrollView>
-      <FAB
+      <AnimatedFAB
         icon="plus"
-        mode={"elevated"}
+        label="Добавить"
+        extended={isExtended}
         onPress={handleAdd}
-        animated={false}
+        animateFrom="right"
+        iconMode="dynamic"
         style={[styles.fabStyle]}
-        />
+      />
       <AddModal modalizeRef={modalizeRef}>
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
@@ -127,7 +246,9 @@ export default function TabOneScreen() {
               <TextInput mode="outlined" placeholder="Категория" />
             </>
           )}
-          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>Добавить</Button>
+          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
+            Добавить
+          </Button>
         </View>
       </AddModal>
     </SafeAreaView>
@@ -157,9 +278,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   fabStyle: {
-    bottom: "10%",
-    right: "15%",
-    borderRadius: 30,
+    bottom: 16,
+    right: 16,
     position: "absolute",
   },
   financeContainer: {
@@ -168,7 +288,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "35%",
     backgroundColor: "#E3E4E0",
-    marginBottom: 0
+    marginBottom: 0,
   },
   balanceContainer: {
     backgroundColor: "white",
@@ -176,13 +296,13 @@ const styles = StyleSheet.create({
     marginTop: "13%",
     marginLeft: "5%",
     marginRight: "5%",
-    borderRadius: 25
+    borderRadius: 25,
   },
   balanceTitle: {
-    fontSize: 15
+    fontSize: 15,
   },
   balanceValue: {
-    fontSize: 30
+    fontSize: 30,
   },
   elemsContainer: {
     display: "flex",
@@ -205,26 +325,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   transactionCategory: {
-    fontSize: 13
+    fontSize: 13,
   },
 
   elemsEachContainerRight: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   transactionValueIfIncome: {
     fontSize: 16,
-    color: "green"
+    color: "green",
   },
   transactionValueIfExpense: {
     fontSize: 16,
-    color: "black"
+    color: "black",
   },
   transactionCurrencyIfIncome: {
     marginLeft: 3,
     fontSize: 16,
-    color: "green"
+    color: "green",
   },
   transactionCurrencyIfExpense: {
     marginLeft: 3,
