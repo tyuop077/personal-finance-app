@@ -162,20 +162,22 @@ const styles = StyleSheet.create({
   balanceContainer: {
     backgroundColor: "white",
     padding: "7%",
-    marginTop: "13%",
+    marginTop: "20%",
     marginLeft: "5%",
     marginRight: "5%",
     borderRadius: 25,
   },
   balanceTitle: {
     fontSize: 15,
+    color: "black"
   },
   balanceValue: {
     fontSize: 30,
+    color: "black"
   },
   elemsContainer: {
     display: "flex",
-    top: "32%",
+    top: "30%",
   },
   elemsEachContainer: {
     flex: 1,
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
   },
   transactionValueIfExpense: {
     fontSize: 16,
-    color: "black",
+    color: "red",
   },
   transactionCurrencyIfIncome: {
     marginLeft: 3,
@@ -216,5 +218,6 @@ const styles = StyleSheet.create({
   transactionCurrencyIfExpense: {
     marginLeft: 3,
     fontSize: 16,
+    color: "red",
   },
 });
