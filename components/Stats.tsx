@@ -1,5 +1,5 @@
 import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
 import { List } from "react-native-paper";
@@ -28,6 +28,7 @@ export default function Stats({ tempData, isExpense }: Props) {
   const [sum, setSum] = useState(0);
   const [graphData, setGraphData] = useState<pieDataItem[]>([]);
   const [categoryData, setCategoryData] = useState<CategoryDataItem[]>([]);
+  const theme = useTheme();
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -106,10 +107,13 @@ export default function Stats({ tempData, isExpense }: Props) {
             sectionAutoFocus
             radius={100}
             innerRadius={80}
+            innerCircleColor={theme.colors.tertiaryContainer}
             centerLabelComponent={() => {
               return (
                 <View style={styles.container}>
-                  <Text style={styles.month}>{monthNames[currentMonth]}</Text>
+                  <Text style={[styles.month, { color: theme.colors.onTertiaryContainer }]}>
+                    {monthNames[currentMonth]}
+                  </Text>
                 </View>
               );
             }}
