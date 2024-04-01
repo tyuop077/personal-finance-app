@@ -9,7 +9,6 @@ export interface FinanceItem {
   value: number;
   comment?: string;
   category?: string;
-  isExpense: boolean;
   date: Date;
 }
 

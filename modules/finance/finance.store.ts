@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import FinanceService from "./finance.service";
-import { FinanceModel, FinanceItem } from "./finance.model";
+import { FinanceModel, FinanceItem, FinanceType } from "./finance.model";
 import LocalRepository from "../../utils/localRepository";
 
 export class FinanceStore {
@@ -58,7 +58,7 @@ export class FinanceStore {
     await this.financeRepository.setItems(this.financeModel.items);
   }
 
-  getFinanceItemsByDateRange(isExpense: boolean, startDate: Date, endDate: Date) {
-    return this.financeService.getFinanceItemsByDateRange(this.financeModel, isExpense, startDate, endDate);
+  getFinanceItemsByDateRange(type: FinanceType, startDate: Date, endDate: Date) {
+    return this.financeService.getFinanceItemsByDateRange(this.financeModel, type, startDate, endDate);
   }
 }

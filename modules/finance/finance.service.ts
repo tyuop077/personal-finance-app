@@ -1,4 +1,4 @@
-import { FinanceItem, FinanceModel } from "./finance.model";
+import { FinanceItem, FinanceModel, FinanceType } from "./finance.model";
 
 export default class FinanceService {
   addFinanceItem = (model: FinanceModel, newItem: FinanceItem) => {
@@ -11,10 +11,9 @@ export default class FinanceService {
     return model;
   };
 
-  getFinanceItemsByDateRange = (model: FinanceModel, isExpense: boolean, startDate: Date, endDate: Date) : Map<string | undefined, FinanceItem[]> => {
+  getFinanceItemsByDateRange = (model: FinanceModel, type:FinanceType , startDate: Date, endDate: Date) : Map<string | undefined, FinanceItem[]> => {
     let filteredItems = model.items.filter(item =>
-      (item.isExpense == isExpense && item.date >= startDate && item.date <= endDate));
-
+      (item.type == type && item.date >= startDate && item.date <= endDate));
 
 
     let result = new Map<string | undefined, FinanceItem[]>();
