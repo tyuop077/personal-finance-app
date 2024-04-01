@@ -124,6 +124,8 @@ export const retrieveData = async () => {
   const [colorScheme, setColorScheme] = useState(base_theme);
 
   useEffect(()=>{ ( async () => {
+    console.log("hook");
+    
     const _body = await retrieveData() 
     if(_body == null && _body == undefined){
       setColorScheme(base_theme)
