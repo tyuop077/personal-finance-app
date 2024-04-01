@@ -6,10 +6,10 @@ export const FinanceCard = () => {
   const theme = useTheme();
 
   return (
-    <View style={[styles.financeContainer, { backgroundColor: theme.colors.elevation.level1 }]}>
-      <View style={[styles.balanceContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
-        <Text style={[styles.balanceTitle, { color: theme.colors.onSurface }]}>Баланс</Text>
-        <Text style={[styles.balanceValue, { color: theme.colors.onSurface }]}>50000</Text>
+    <View style={styles.financeContainer}>
+      <View style={[styles.balanceContainer, { backgroundColor: theme.colors.secondaryContainer }]}>
+        <Text style={[styles.balanceTitle, { color: theme.colors.onSecondaryContainer }]}>Баланс</Text>
+        <Text style={[styles.balanceValue, { color: theme.colors.onSecondaryContainer }]}>50000</Text>
       </View>
     </View>
   );
