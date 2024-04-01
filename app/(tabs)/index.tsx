@@ -1,6 +1,6 @@
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, TextInput, AnimatedFAB } from "react-native-paper";
+import { Button, TextInput, AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -17,6 +17,7 @@ export default function TabOneScreen() {
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
+  const theme = useTheme();
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
@@ -58,29 +59,12 @@ export default function TabOneScreen() {
         {items.map(elem => (
           <View key={elem.id} style={styles.elemsEachContainer}>
             <View style={styles.elemsEachContainerLeft}>
-              <View>
-                <Text style={styles.transactionTitle}>{elem.title}</Text>
-              </View>
-              <View>
-                <Text style={styles.transactionCategory}>{elem.category}</Text>
-              </View>
+              <Text style={styles.transactionTitle}>{elem.title}</Text>
+              <Text style={styles.transactionCategory}>{elem.category}</Text>
             </View>
             <View style={styles.elemsEachContainerRight}>
-              <Text
-                style={
-                  elem.type == FinanceType.EXPENSE ? styles.transactionValueIfExpense : styles.transactionValueIfIncome
-                }
-              >
-                {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
-              </Text>
-              <Text
-                style={
-                  elem.type == FinanceType.EXPENSE
-                    ? styles.transactionCurrencyIfExpense
-                    : styles.transactionCurrencyIfIncome
-                }
-              >
-                ₽
+              <Text style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? { color: "green" } : null]}>
+                {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}₽
               </Text>
             </View>
           </View>
@@ -194,7 +178,6 @@ const styles = StyleSheet.create({
   transactionCategory: {
     fontSize: 13,
   },
-
   elemsEachContainerRight: {
     flex: 1,
     flexDirection: "row",
@@ -206,14 +189,8 @@ const styles = StyleSheet.create({
   },
   transactionValueIfExpense: {
     fontSize: 16,
-    color: "black",
   },
-  transactionCurrencyIfIncome: {
-    marginLeft: 3,
-    fontSize: 16,
-    color: "green",
-  },
-  transactionCurrencyIfExpense: {
+  transactionCurrency: {
     marginLeft: 3,
     fontSize: 16,
   },
