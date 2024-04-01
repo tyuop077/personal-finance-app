@@ -1,4 +1,5 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
 import { List } from "react-native-paper";
