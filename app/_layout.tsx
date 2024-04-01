@@ -6,10 +6,11 @@ import {
   MD3Theme,
   MD3DarkTheme,
   adaptNavigationTheme,
+  useTheme,
 } from "react-native-paper";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Platform, useColorScheme } from "react-native";
 import AwesomeIcon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -20,8 +21,11 @@ import { Inter_400Regular, Inter_500Medium, Inter_900Black } from "@expo-google-
 import { DarkColors, LightColors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
-import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
+import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark, useRoute } from "@react-navigation/native";
 import * as NavigationBar from "expo-navigation-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { _storeData } from "./settings";
+import { err } from "react-native-svg";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -98,9 +102,37 @@ interface IconPropsRoot extends IconProps<any> {
   name: string;
 }
 
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+export const retrieveData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('theme');
+    if (value !== null && value !== undefined) {
+      console.log("retrieve: "+value)
+      return value
+    }
+    else {
+      console.log("not found");
+    }
+  } catch (error) {
+     console.log(error);
+  }
+};
 
+ export function RootLayoutNav() {
+  // AsyncStorage.clear()
+
+  const base_theme = useColorScheme()
+  const [colorScheme, setColorScheme] = useState(base_theme);
+
+  useEffect(()=>{ ( async () => {
+    const _body = await retrieveData() 
+    if(_body == null && _body == undefined){
+      setColorScheme(base_theme)
+    }
+    else {
+      setColorScheme(_body)
+    }}
+    )() })
+  
   const md3Theme = {
     ...(colorScheme === "dark" ? darkTheme : lightTheme),
     ...commonTheme,

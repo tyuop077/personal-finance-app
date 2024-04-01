@@ -1,14 +1,36 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Appbar, Button, List, Menu, Switch, Text } from "react-native-paper";
+import { ScrollView, StyleSheet, View, useColorScheme } from "react-native";
+import { Appbar, Button, List, Menu, Switch, Text, ThemeProvider, useTheme } from "react-native-paper";
 import { router } from "expo-router";
 import TestBanner from "@/components/TestBanner";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { RootLayoutNav, retrieveData } from "../app/_layout";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { green } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+
+export const _storeData = async (item: string) => {
+  try {
+    await AsyncStorage.setItem(
+      'theme',
+      item,
+    );
+    // return
+  } catch (error) {
+  }
+};
 
 export default function SettingsPage() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const changeTheme = async () => {
+    const actualTheme = await retrieveData();
+    var newTheme: string
+    (actualTheme == "light") ? newTheme="dark" : newTheme="light"
+    _storeData(newTheme)
+    console.log("newTheme:"+actualTheme);
+  };
 
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  
   return (
     <>
       <Appbar.Header mode="large">
@@ -18,7 +40,7 @@ export default function SettingsPage() {
       <ScrollView style={styles.container}>
         <List.Section>
           <List.Subheader>Внешний вид</List.Subheader>
-          <List.Item title="Тема" onPress={() => {}} left={() => <List.Icon icon="palette" />} />
+          <List.Item title="Тема" onPress={changeTheme} left={() => <List.Icon icon="palette" />} />
         </List.Section>
         <List.Section>
           <List.Subheader>Общее</List.Subheader>
