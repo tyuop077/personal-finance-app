@@ -63,7 +63,7 @@ export default function TabOneScreen() {
               <Text style={styles.transactionCategory}>{elem.category}</Text>
             </View>
             <View style={styles.elemsEachContainerRight}>
-              <Text style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? { color: "green" } : null]}>
+              <Text style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
                 {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}₽
               </Text>
             </View>
