@@ -94,8 +94,8 @@ export default function TabOneScreen() {
               </View>
             </View>
             <View style={styles.elemsEachContainerRight}>
-                <Text style={styles.transactionValue}>{elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}</Text>
-                <Text style={styles.transactionCurrency}>₽</Text>
+                <Text style={elem.type == FinanceType.EXPENSE ? styles.transactionValueIfExpense : styles.transactionValueIfIncome}>{elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}</Text>
+                <Text style={elem.type == FinanceType.EXPENSE ? styles.transactionCurrencyIfExpense : styles.transactionCurrencyIfIncome}>₽</Text>
             </View>
           </View>
         ))}
@@ -138,9 +138,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    justifyContent: "space-evenly",
     gap: 10,
-    margin: "5%",
-    marginBottom: 0,
   },
   modalContainer: {
     flex: 1,
@@ -166,10 +165,18 @@ const styles = StyleSheet.create({
   financeContainer: {
     flex: 1,
     position: "absolute",
-    height: "100%"
+    width: "100%",
+    height: "35%",
+    backgroundColor: "#E3E4E0",
+    marginBottom: 0
   },
   balanceContainer: {
-    marginTop: "10%"
+    backgroundColor: "white",
+    padding: "7%",
+    marginTop: "13%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    borderRadius: 25
   },
   balanceTitle: {
     fontSize: 15
@@ -179,20 +186,20 @@ const styles = StyleSheet.create({
   },
   elemsContainer: {
     display: "flex",
-    width: "100%",
-    top: 100,
+    marginLeft: "5%",
+    marginRight: "5%",
+    top: "32%",
   },
   elemsEachContainer: {
     flex: 1,
     flexDirection: "row",
-    height: "100%",
-    marginBottom: 8,
+    marginBottom: "3%",
+    marginTop: "3%",
   },
   elemsEachContainerLeft: {
-    flex: 1,
-    alignItems: "flex-start",
-    width: 1000,
+    flex: 3,
     flexDirection: "column",
+    justifyContent: "center",
   },
   transactionTitle: {
     fontSize: 16,
@@ -200,19 +207,27 @@ const styles = StyleSheet.create({
   transactionCategory: {
     fontSize: 13
   },
+
   elemsEachContainerRight: {
     flex: 1,
-    alignItems: "flex-start",
     flexDirection: "row",
-    width: "30%",
-    justifyContent: "flex-end",
+    justifyContent: "flex-end"
   },
-  transactionValue: {
+  transactionValueIfIncome: {
     fontSize: 16,
+    color: "green"
   },
-  transactionCurrency: {
+  transactionValueIfExpense: {
+    fontSize: 16,
+    color: "black"
+  },
+  transactionCurrencyIfIncome: {
+    marginLeft: 3,
+    fontSize: 16,
+    color: "green"
+  },
+  transactionCurrencyIfExpense: {
     marginLeft: 3,
     fontSize: 16,
   },
-
 });
