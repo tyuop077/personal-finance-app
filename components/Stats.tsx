@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    height: 30,
-    width: 30,
+    height: 25,
+    width: 25,
     borderRadius: 50,
   },
   title: {

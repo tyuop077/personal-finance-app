@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Appbar, Button, Menu, Text } from "react-native-paper";
 import { router } from "expo-router";
-import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
 import { useRootStore } from "@/hooks/useRootStore";
 import { Tabs, TabScreen, TabsProvider } from "react-native-paper-tabs";
@@ -43,13 +42,13 @@ export default function StatsPage() {
           <Menu.Item title="Настройки" onPress={handleSettings} />
         </Menu>
       </Appbar.Header>
-      <TabsProvider defaultIndex={0}>
+      <TabsProvider>
         <Tabs>
           <TabScreen label="Расходы">
-            <Expenses/>
+            <Expenses />
           </TabScreen>
           <TabScreen label="Доходы">
-            <Revenues/>
+            <Revenues />
           </TabScreen>
         </Tabs>
       </TabsProvider>
