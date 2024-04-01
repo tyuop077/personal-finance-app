@@ -8,6 +8,7 @@ import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
 import defaultFinance from "@/mock/defaultFinance";
+import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
@@ -50,12 +51,7 @@ export default function TabOneScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
-        <View style={styles.financeContainer}>
-          <View style={[styles.balanceContainer, { backgroundColor: theme.colors.secondaryContainer }]}>
-            <Text style={[styles.balanceTitle, { color: theme.colors.onSecondaryContainer }]}>Баланс</Text>
-            <Text style={[styles.balanceValue, { color: theme.colors.onSecondaryContainer }]}>50000</Text>
-          </View>
-        </View>
+        <FinanceCard />
         <View style={styles.elemsContainer}>
           {items.map(elem => (
             <View key={elem.id} style={styles.elemsEachContainer}>
@@ -138,20 +134,6 @@ const styles = StyleSheet.create({
     bottom: 16,
     right: 16,
     position: "absolute",
-  },
-  financeContainer: {
-    flex: 1,
-    padding: 15,
-  },
-  balanceContainer: {
-    borderRadius: 25,
-    padding: 15,
-  },
-  balanceTitle: {
-    fontSize: 15,
-  },
-  balanceValue: {
-    fontSize: 30,
   },
   elemsContainer: {
     display: "flex",

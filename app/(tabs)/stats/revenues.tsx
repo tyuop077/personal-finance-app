@@ -13,7 +13,6 @@ export default function Revenues() {
             [
               {
                 id: 1,
-                // @ts-ignore
                 title: "Зарплата",
                 type: FinanceType.INCOME,
                 category: "Зарплата",

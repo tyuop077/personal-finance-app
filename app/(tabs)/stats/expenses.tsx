@@ -30,7 +30,6 @@ export default function Expenses() {
               },
             ],
           ],
-
           [
             "Супермаркеты",
             [
@@ -54,7 +53,6 @@ export default function Expenses() {
               },
             ],
           ],
-
           [
             "Здоровье",
             [
@@ -78,7 +76,6 @@ export default function Expenses() {
               },
             ],
           ],
-
           [
             "Столовые",
             [
