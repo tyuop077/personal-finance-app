@@ -191,13 +191,11 @@ const styles = StyleSheet.create({
   elemsEachContainerLeft: {
     flex: 1,
     alignItems: "flex-start",
-    backgroundColor: "red",
     width: 1000,
     flexDirection: "column",
   },
   transactionTitle: {
     fontSize: 16,
-    backgroundColor: "blue"
   },
   transactionCategory: {
     fontSize: 13
@@ -207,7 +205,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     width: "30%",
-    backgroundColor: "yellow",
     justifyContent: "flex-end",
   },
   transactionValue: {
