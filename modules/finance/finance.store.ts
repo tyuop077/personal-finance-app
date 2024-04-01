@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import FinanceService from "./finance.service";
 import { FinanceModel, FinanceItem, FinanceType } from "./finance.model";
 import LocalRepository from "../../utils/localRepository";
+import defaultFinance from "@/mock/defaultFinance";
 
 export class FinanceStore {
   financeService;
@@ -12,20 +13,7 @@ export class FinanceStore {
   constructor() {
     makeAutoObservable(this);
     this.financeService = new FinanceService();
-    this.loadFinances();
-  }
-
-  async loadFinances() {
-    this.isLoading = true;
-    const storedFinances = await this.financeRepository.getItems();
-    if (storedFinances) {
-      runInAction(() => {
-        this.financeModel.items = storedFinances;
-        this.isLoading = false;
-      });
-    } else {
-      this.isLoading = false;
-    }
+    this.getFinances();
   }
 
   async getFinances() {
@@ -35,6 +23,10 @@ export class FinanceStore {
       if (storedFinances) {
         runInAction(() => {
           this.financeModel.items = storedFinances;
+        });
+      } else {
+        runInAction(() => {
+          this.financeModel.items = defaultFinance;
         });
       }
     } catch (error) {

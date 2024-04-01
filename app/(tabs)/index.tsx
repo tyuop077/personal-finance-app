@@ -14,10 +14,6 @@ export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
   const modalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
-  const [items, setItems] = useState<FinanceItem[]>(defaultFinance);
-  const [isIncome, setIsIncome] = useState<boolean>(false);
-  const [money, setMoney] = useState<number>(0);
-  const [title, setTitle] = useState<string>("");
   const theme = useTheme();
 
   const onScroll = ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -34,26 +30,12 @@ export default function TabOneScreen() {
     modalizeRef.current?.open();
   };
 
-  const handleAddNewElem = () => {
-    setItems([
-      ...items,
-      {
-        id: Number(new Date()),
-        title: title,
-        type: FinanceType.EXPENSE,
-        category: "еда",
-        value: money,
-        date: new Date(Date.now()),
-      },
-    ]);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
         <FinanceCard />
         <View style={styles.elemsContainer}>
-          {items.map(elem => (
+          {finances.financeModel.items.map(elem => (
             <View key={elem.id} style={styles.elemsEachContainer}>
               <View style={styles.elemsEachContainerLeft}>
                 <Text style={styles.transactionTitle}>{elem.title}</Text>
@@ -79,31 +61,7 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <AddModal modalizeRef={modalizeRef}>
-        <View style={styles.modalContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)}>Расход</Button>
-          </View>
-          <TextInput
-            autoFocus={true}
-            mode="outlined"
-            placeholder="Введите сумму"
-            onChangeText={text => setMoney(Number(text))}
-          />
-          {isIncome ? (
-            <TextInput mode="outlined" placeholder="Комментарий" />
-          ) : (
-            <>
-              <TextInput mode="outlined" placeholder="Комментарий" />
-              <TextInput mode="outlined" placeholder="Категория" />
-            </>
-          )}
-          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
-            Добавить
-          </Button>
-        </View>
-      </AddModal>
+      <AddModal modalizeRef={modalizeRef}></AddModal>
     </SafeAreaView>
   );
 }
@@ -114,17 +72,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     gap: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    gap: 10,
-  },
-  addButton: {
-    flex: 1,
-    width: 390,
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
   },
   title: {
     fontSize: 20,
