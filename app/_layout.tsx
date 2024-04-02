@@ -11,7 +11,7 @@ import {
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Platform, useColorScheme } from "react-native";
+import { Platform, useColorScheme, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FeatherIcons from "@expo/vector-icons/Feather";
 import { IconProps } from "@expo/vector-icons/build/createIconSet";
@@ -153,19 +153,21 @@ function RootLayoutNav() {
           },
         }}
       >
-        <ThemeProvider value={isDarkThemeSelected ? DarkTheme : LightTheme}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <StatusBar style={isDarkThemeSelected ? "light" : "dark"} />
-            <PortalizeHost>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
-                <Stack.Screen name="settings/index" options={{ headerShown: false }} />
-                <Stack.Screen name="settings/theme" options={{ title: "Тема" }} />
-              </Stack>
-            </PortalizeHost>
-          </GestureHandlerRootView>
-        </ThemeProvider>
+        <View style={{ flex: 1, backgroundColor: md3Theme.colors.background }}>
+          <ThemeProvider value={isDarkThemeSelected ? DarkTheme : LightTheme}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <StatusBar style={isDarkThemeSelected ? "light" : "dark"} />
+              <PortalizeHost>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
+                  <Stack.Screen name="settings/index" options={{ headerShown: false }} />
+                  <Stack.Screen name="settings/theme" options={{ title: "Тема" }} />
+                </Stack>
+              </PortalizeHost>
+            </GestureHandlerRootView>
+          </ThemeProvider>
+        </View>
       </PaperProvider>
     </PreferencesContext.Provider>
   );
