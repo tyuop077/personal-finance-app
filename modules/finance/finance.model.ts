@@ -5,11 +5,11 @@ export enum FinanceType {
 
 export interface FinanceItem {
   id: number;
+  title: string;
   type: FinanceType;
   value: number;
   comment?: string;
   category?: string;
-  isExpense: boolean;
   date: Date;
 }
 

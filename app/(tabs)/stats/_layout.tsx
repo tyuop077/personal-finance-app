@@ -1,12 +1,13 @@
 import { StyleSheet, View } from "react-native";
 import { Appbar, Button, Menu, Text } from "react-native-paper";
 import { router } from "expo-router";
-import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
 import { useRootStore } from "@/hooks/useRootStore";
 import { Tabs, TabScreen, TabsProvider } from "react-native-paper-tabs";
 import Revenues from "@/app/(tabs)/stats/revenues";
 import Expenses from "@/app/(tabs)/stats/expenses";
+import defaultFinance from "@/mock/defaultFinance";
+import { runInAction } from "mobx";
 
 export default function StatsPage() {
   const { finances } = useRootStore();
@@ -26,8 +27,19 @@ export default function StatsPage() {
   };
 
   const handleReset = () => {
-    finances.financeRepository.removeAll();
-    finances.financeModel.items = [];
+    runInAction(() => {
+      finances.financeRepository.removeAll();
+      finances.financeModel.items = [];
+    });
+    alert("Перезапустите для обновления");
+  };
+
+  const handleResetDefault = () => {
+    runInAction(() => {
+      finances.financeRepository.setItems(defaultFinance);
+      finances.financeModel.items = defaultFinance;
+    });
+    alert("Перезапустите для обновления");
   };
 
   return (
@@ -39,17 +51,18 @@ export default function StatsPage() {
           onDismiss={handleCloseMenu}
           anchor={<Appbar.Action icon="feather/more-vertical" onPress={handleOpenMenu} />}
         >
-          <Menu.Item title="Сбросить состояние" onPress={handleReset} />
+          <Menu.Item title="Сбросить до пустого" onPress={handleReset} />
+          <Menu.Item title="Сбросить до тестового" onPress={handleResetDefault} />
           <Menu.Item title="Настройки" onPress={handleSettings} />
         </Menu>
       </Appbar.Header>
-      <TabsProvider defaultIndex={0}>
+      <TabsProvider>
         <Tabs>
           <TabScreen label="Расходы">
-            <Expenses/>
+            <Expenses />
           </TabScreen>
           <TabScreen label="Доходы">
-            <Revenues/>
+            <Revenues />
           </TabScreen>
         </Tabs>
       </TabsProvider>

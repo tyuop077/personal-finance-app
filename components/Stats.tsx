@@ -1,7 +1,7 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Text, List, useTheme } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
-import { List } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
 import { GraphColors } from "@/constants/Colors";
@@ -29,6 +29,8 @@ export default function Stats({ tempData, isExpense }: Props) {
   const [categoryData, setCategoryData] = useState<CategoryDataItem[]>([]);
 
   const [refreshing, setRefreshing] = React.useState(false);
+
+  const theme = useTheme();
 
   useEffect(() => {
     // finances.getFinances();
@@ -91,18 +93,12 @@ export default function Stats({ tempData, isExpense }: Props) {
     }
   };
 
-
-  const emptyData = [
-    { value: 100, color: "#808080" },
-  ];
-
+  const emptyData = [{ value: 100, color: "#808080" }];
 
   return (
-    <ScrollView
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
+    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.baseContainer}>
-        <Text style={{ fontSize: 24 }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
+        <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
         <View style={styles.container}>
           <PieChart
             data={graphData.length == 0 ? emptyData : graphData}
@@ -111,42 +107,42 @@ export default function Stats({ tempData, isExpense }: Props) {
             sectionAutoFocus
             radius={100}
             innerRadius={80}
+            innerCircleColor={theme.colors.tertiaryContainer}
             centerLabelComponent={() => {
               return (
                 <View style={styles.container}>
-                  <Text style={styles.month}>{monthNames[currentMonth]}</Text>
+                  <Text style={[styles.month, { color: theme.colors.onTertiaryContainer }]}>
+                    {monthNames[currentMonth]}
+                  </Text>
                 </View>
               );
             }}
           />
         </View>
         <View>
-          <Text style={styles.title}>Категории</Text>
+          <Text style={[styles.title, {color: theme.colors.onBackground}]}>Категории</Text>
           <List.Section>
-            {categoryData.length == 0 ?
+            {categoryData.length == 0 ? (
               <List.Item title="Нет расходов" />
-              :
+            ) : (
               categoryData.map(item => (
-                <List.Item title={item.category} key={item.id}
-                           description=
-                             {(
-                               <Text>
-                                 {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
-                               </Text>
-                             )}
-                           left={() =>
-                             <View style={styles.container}>
-                               <View style={[styles.circle, { backgroundColor: item.color }]} />
-                             </View>
-                           }
-                           right={() =>
-                             <Text>
-                               {item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
-                             </Text>
-                           }
+                <List.Item
+                  title={item.category}
+                  key={item.id}
+                  description={
+                    <Text>
+                      {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
+                    </Text>
+                  }
+                  left={() => (
+                    <View style={styles.container}>
+                      <View style={[styles.circle, { backgroundColor: item.color }]} />
+                    </View>
+                  )}
+                  right={() => <Text style={[{color: theme.colors.onBackground}]}>{item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>}
                 />
               ))
-            }
+            )}
           </List.Section>
         </View>
       </View>
@@ -164,8 +160,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   circle: {
-    height: 30,
-    width: 30,
+    height: 25,
+    width: 25,
     borderRadius: 50,
   },
   title: {
