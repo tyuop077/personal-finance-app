@@ -9,6 +9,10 @@ export default function SettingsPage() {
 
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
+  const handleOpenThemePage = () => {
+    router.push("/settings/theme");
+  };
+
   return (
     <>
       <Appbar.Header mode="large">
@@ -18,7 +22,7 @@ export default function SettingsPage() {
       <ScrollView style={styles.container}>
         <List.Section>
           <List.Subheader>Внешний вид</List.Subheader>
-          <List.Item title="Тема" onPress={() => {}} left={() => <List.Icon icon="palette" />} />
+          <List.Item title="Тема" onPress={handleOpenThemePage} left={() => <List.Icon icon="palette" />} />
         </List.Section>
         <List.Section>
           <List.Subheader>Общее</List.Subheader>

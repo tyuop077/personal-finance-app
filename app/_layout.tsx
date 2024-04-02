@@ -1,17 +1,17 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import AwesomeIcon from "@expo/vector-icons/FontAwesome";
 import {
-  MD3LightTheme,
-  PaperProvider,
-  configureFonts,
-  MD3Theme,
-  MD3DarkTheme,
   adaptNavigationTheme,
+  configureFonts,
+  MD3DarkTheme,
+  MD3LightTheme,
+  MD3Theme,
+  PaperProvider,
 } from "react-native-paper";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Platform, useColorScheme } from "react-native";
-import AwesomeIcon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FeatherIcons from "@expo/vector-icons/Feather";
 import { IconProps } from "@expo/vector-icons/build/createIconSet";
@@ -20,8 +20,9 @@ import { Inter_400Regular, Inter_500Medium, Inter_900Black } from "@expo-google-
 import { DarkColors, LightColors } from "@/constants/Colors";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Host as PortalizeHost } from "react-native-portalize";
-import { DefaultTheme as RNLight, ThemeProvider, DarkTheme as RNDark } from "@react-navigation/native";
+import { DarkTheme as RNDark, DefaultTheme as RNLight, ThemeProvider } from "@react-navigation/native";
 import * as NavigationBar from "expo-navigation-bar";
+import { PreferencesContext, ThemeState } from "@/modules/theme/theme.context";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -100,11 +101,24 @@ interface IconPropsRoot extends IconProps<any> {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const [themeState, setThemeState] = useState<ThemeState>(ThemeState.AUTOMATIC);
+
+  const isDarkThemeSelected =
+    themeState === ThemeState.DARK || (themeState === ThemeState.AUTOMATIC && colorScheme === "dark");
 
   const md3Theme = {
-    ...(colorScheme === "dark" ? darkTheme : lightTheme),
+    ...(isDarkThemeSelected ? darkTheme : lightTheme),
     ...commonTheme,
   };
+
+  const toggleTheme = useCallback((state: ThemeState) => setThemeState(state), [themeState]);
+  const preferences = useMemo(
+    () => ({
+      toggleTheme,
+      themeState,
+    }),
+    [toggleTheme, themeState]
+  );
 
   const { LightTheme, DarkTheme } = adaptNavigationTheme({
     reactNavigationLight: RNLight,
@@ -114,42 +128,45 @@ function RootLayoutNav() {
   });
 
   return (
-    <PaperProvider
-      theme={md3Theme}
-      settings={{
-        icon: (props: IconPropsRoot) => {
-          let [provider, icon] = props.name.split("/");
-          if (!icon) {
-            icon = provider;
-            provider = "material-community";
-          }
-          const iconProps = { ...props, name: icon };
-          switch (provider) {
-            case "awesome":
-              // @ts-ignore
-              return <AwesomeIcon {...iconProps} />;
-            case "material-community":
-              // @ts-ignore
-              return <MaterialCommunityIcons {...iconProps} />;
-            case "feather":
-              // @ts-ignore
-              return <FeatherIcons {...iconProps} />;
-          }
-        },
-      }}
-    >
-      <ThemeProvider value={colorScheme === "light" ? LightTheme : DarkTheme}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <StatusBar style={colorScheme === "light" ? "dark" : "light"} />
-          <PortalizeHost>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
-              <Stack.Screen name="settings" options={{ headerShown: false }} />
-            </Stack>
-          </PortalizeHost>
-        </GestureHandlerRootView>
-      </ThemeProvider>
-    </PaperProvider>
+    <PreferencesContext.Provider value={preferences}>
+      <PaperProvider
+        theme={md3Theme}
+        settings={{
+          icon: (props: IconPropsRoot) => {
+            let [provider, icon] = props.name.split("/");
+            if (!icon) {
+              icon = provider;
+              provider = "material-community";
+            }
+            const iconProps = { ...props, name: icon };
+            switch (provider) {
+              case "awesome":
+                // @ts-ignore
+                return <AwesomeIcon {...iconProps} />;
+              case "material-community":
+                // @ts-ignore
+                return <MaterialCommunityIcons {...iconProps} />;
+              case "feather":
+                // @ts-ignore
+                return <FeatherIcons {...iconProps} />;
+            }
+          },
+        }}
+      >
+        <ThemeProvider value={isDarkThemeSelected ? DarkTheme : LightTheme}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <StatusBar style={isDarkThemeSelected ? "light" : "dark"} />
+            <PortalizeHost>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="modal" options={{ presentation: "modal", title: "test modal" }} />
+                <Stack.Screen name="settings/index" options={{ headerShown: false }} />
+                <Stack.Screen name="settings/theme" options={{ title: "Тема" }} />
+              </Stack>
+            </PortalizeHost>
+          </GestureHandlerRootView>
+        </ThemeProvider>
+      </PaperProvider>
+    </PreferencesContext.Provider>
   );
 }

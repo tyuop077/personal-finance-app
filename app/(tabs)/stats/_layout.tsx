@@ -22,7 +22,7 @@ export default function StatsPage() {
   };
 
   const handleSettings = () => {
-    router.push("/settings");
+    router.push("/settings/");
     setVisible(false);
   };
 
