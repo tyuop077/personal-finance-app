@@ -70,6 +70,12 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
             defaultValue={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
+          <TextInput
+            mode="outlined"
+            placeholder="title"
+            defaultValue={title}
+            onChangeText={text => setTitle(text)}
+          />
           {isIncome ? (
             <TextInput
               mode="outlined"
