@@ -3,7 +3,7 @@ import { List, useTheme } from "react-native-paper";
 import { useContext } from "react";
 import { PreferencesContext, ThemeState } from "@/modules/theme/theme.context";
 
-export default function SettingsPage() {
+export default function SettingsThemePage() {
   const { toggleTheme, themeState } = useContext(PreferencesContext);
   const theme = useTheme();
 
