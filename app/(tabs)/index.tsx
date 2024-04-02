@@ -1,13 +1,19 @@
-import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { Button, TextInput, AnimatedFAB, useTheme } from "react-native-paper";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from "react-native";
+import React, { useEffect, useRef} from "react";
+import { AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
 import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
-import defaultFinance from "@/mock/defaultFinance";
 import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
@@ -36,7 +42,12 @@ export default function TabOneScreen() {
         <FinanceCard />
         <View style={styles.elemsContainer}>
           {finances.financeModel.items.map(elem => (
-            <View key={elem.id} style={styles.elemsEachContainer}>
+              <View key={elem.id}>
+                <TouchableHighlight
+                  onPress={onPress}
+                  delayPressIn={100}
+                  underlayColor={theme.colors.outlineVariant}>
+                  <View style={styles.elemsEachContainer}>
               <View style={styles.elemsEachContainerLeft}>
                 <Text style={styles.transactionTitle}>{elem.title}</Text>
                 <Text style={styles.transactionCategory}>{elem.category}</Text>
@@ -52,6 +63,10 @@ export default function TabOneScreen() {
                 </Text>
               </View>
             </View>
+
+                </TouchableHighlight>
+            </View>
+
           ))}
         </View>
       </ScrollView>
