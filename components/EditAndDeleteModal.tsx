@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState } from "react";
+import React, { MutableRefObject, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
@@ -16,19 +16,17 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
   const [comment, setComment] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
-  if (selectedItem !== null) {
-    if (money !== selectedItem.value)
-      setMoney(selectedItem.value);
+  useEffect(() => {
+    if (selectedItem === null)
+      return;
 
-    if (title !== selectedItem.title)
-      setTitle(selectedItem.title);
-
-    if (comment !== selectedItem.comment && selectedItem.comment !== undefined)
-        setComment(selectedItem.comment);
-
-    if (category !== selectedItem.category && selectedItem.category !== undefined)
-        setCategory(selectedItem.category);
-  }
+    setMoney(selectedItem.value);
+    setTitle(selectedItem.title);
+    if (selectedItem.comment !== undefined)
+      setComment(selectedItem.comment);
+    if (selectedItem.category !== undefined)
+      setCategory(selectedItem.category);
+  }, [selectedItem]);
 
   const handleEditElem = () => {
     if (selectedItem !== null) {
@@ -67,20 +65,20 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
             keyboardType="numeric"
             mode="outlined"
             placeholder="Введите сумму"
-            defaultValue={money.toString()}
+            value={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
           <TextInput
             mode="outlined"
             placeholder="title"
-            defaultValue={title}
+            value={title}
             onChangeText={text => setTitle(text)}
           />
           {isIncome ? (
             <TextInput
               mode="outlined"
               placeholder="Комментарий"
-              defaultValue={comment}
+              value={comment}
               onChangeText={text => setComment(text)}
             />
           ) : (
@@ -88,12 +86,12 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
               <TextInput
                 mode="outlined"
                 placeholder="Комментарий"
-                defaultValue={comment}
+                value={comment}
                 onChangeText={text => setComment(text)}
               />
               <TextInput mode="outlined"
                          placeholder="Категория"
-                         defaultValue={category}
+                         value={category}
                          onChangeText={text => setCategory(text)}
               />
             </>
