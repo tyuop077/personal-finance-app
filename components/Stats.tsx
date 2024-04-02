@@ -3,7 +3,7 @@ import { Text, List, useTheme } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
 import React, { useEffect, useState } from "react";
-import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
+import { FinanceType } from "@/modules/finance/finance.model";
 import { GraphColors } from "@/constants/Colors";
 import { useRootStore } from "@/hooks/useRootStore";
 
@@ -16,12 +16,11 @@ interface CategoryDataItem {
 }
 
 interface Props {
-  tempData: Map<string | undefined, FinanceItem[]>;
-  isExpense: boolean;
+  financeType: FinanceType;
 }
 
-export default function Stats({ tempData, isExpense }: Props) {
-  const { finances } = useRootStore();
+export default function Stats({ financeType }: Props) {
+  const {finances} = useRootStore();
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [sum, setSum] = useState(0);
@@ -33,7 +32,7 @@ export default function Stats({ tempData, isExpense }: Props) {
   const theme = useTheme();
 
   useEffect(() => {
-    // finances.getFinances();
+    finances.getFinances();
     getFinances();
   }, []);
 
@@ -46,11 +45,10 @@ export default function Stats({ tempData, isExpense }: Props) {
   const getFinances = () => {
     let startDate = new Date(currentYear, currentMonth, 1);
     let endDate = getNextDate(currentYear, currentMonth);
-    // let finance = finances.getFinanceItemsByDateRange(isExpense, startDate, endDate);
-    let finance = tempData;
+    let finance = finances.getFinanceItemsByDateRange(financeType, startDate, endDate);
     let sum = 0;
 
-    finance.forEach((value, key) => {
+    finance.forEach((value) => {
       value.forEach(item => {
         sum += item.value;
       });
@@ -93,6 +91,17 @@ export default function Stats({ tempData, isExpense }: Props) {
     }
   };
 
+  const declinationOperations = (count: number) => {
+    const singular: number[] = [2, 3, 4];
+    const plural: number[] = [0, 5, 6, 7, 8, 9];
+
+    if((11 <= count % 100 && count % 100 <= 14) || plural.includes(count % 10)) {
+      return "операций";
+    } else if(singular.includes(count % 10)){
+      return "операции"
+    } else return "операция"
+  }
+
   const emptyData = [{ value: 100, color: "#808080" }];
 
   return (
@@ -125,7 +134,7 @@ export default function Stats({ tempData, isExpense }: Props) {
           <Text style={[styles.title, { color: theme.colors.onBackground }]}>Категории</Text>
           <List.Section>
             {categoryData.length == 0 ? (
-              <List.Item title="Нет расходов" />
+              <List.Item title="Нет операций" />
             ) : (
               categoryData.map(item => (
                 <List.Item
@@ -133,7 +142,7 @@ export default function Stats({ tempData, isExpense }: Props) {
                   key={item.id}
                   description={
                     <Text>
-                      {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
+                      {item.operationCount} {declinationOperations(item.operationCount)}
                     </Text>
                   }
                   left={() => (
