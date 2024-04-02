@@ -11,6 +11,7 @@ import { AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
+import EditAndDeleteModal from "@/components/EditAndDeleteModal";
 import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
@@ -18,7 +19,9 @@ import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
-  const modalizeRef = useRef<Modalize>();
+  const [selectedItem, setSelectedItem] = React.useState<FinanceItem | null>(null);
+  const addModalizeRef = useRef<Modalize>();
+  const editModalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
   const theme = useTheme();
 
@@ -33,8 +36,13 @@ export default function TabOneScreen() {
   }, []);
 
   const handleAdd = () => {
-    modalizeRef.current?.open();
+    addModalizeRef.current?.open();
   };
+
+const handleEditOrDelete = (item: FinanceItem) => {
+  setSelectedItem(item);
+  editModalizeRef.current?.open();
+}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,29 +50,28 @@ export default function TabOneScreen() {
         <FinanceCard />
         <View style={styles.elemsContainer}>
           {finances.financeModel.items.map(elem => (
-              <View key={elem.id}>
-                <TouchableHighlight
-                  onPress={onPress}
-                  delayPressIn={100}
-                  underlayColor={theme.colors.outlineVariant}>
-                  <View style={styles.elemsEachContainer}>
-              <View style={styles.elemsEachContainerLeft}>
-                <Text style={styles.transactionTitle}>{elem.title}</Text>
-                <Text style={styles.transactionCategory}>{elem.category}</Text>
-              </View>
-              <View style={styles.elemsEachContainerRight}>
+            <View key={elem.id}>
+              <TouchableHighlight
+                onPress={_ => handleEditOrDelete(elem)}
+                delayPressIn={100}
+                underlayColor={theme.colors.outlineVariant}>
+                <View style={styles.elemsEachContainer}>
+                  <View style={styles.elemsEachContainerLeft}>
+                    <Text style={styles.transactionTitle}>{elem.title}</Text>
+                    <Text style={styles.transactionCategory}>{elem.category}</Text>
+                  </View>
+                  <View style={styles.elemsEachContainerRight}>
                 <Text style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
-                  {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
-                </Text>
-                <Text
-                  style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
-                >
-                  ₽
-                </Text>
-              </View>
-            </View>
+                      {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
+                    </Text>
+                    <Text
+                      style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
+                    >₽
+                    </Text>
+                  </View>
+                </View>
 
-                </TouchableHighlight>
+              </TouchableHighlight>
             </View>
 
           ))}
@@ -79,7 +86,8 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <AddModal modalizeRef={modalizeRef}></AddModal>
+      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItem={selectedItem} ></EditAndDeleteModal>
+      <AddModal modalizeRef={addModalizeRef}></AddModal>
     </SafeAreaView>
   );
 }
