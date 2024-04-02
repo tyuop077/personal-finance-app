@@ -42,11 +42,13 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
         date: selectedItem.date
       })
     }
+    modalizeRef.current?.close()
   };
 
   const handleDeleteElem = () => {
     if (selectedItem !== null)
       finances.deleteFinanceItem(selectedItem.id)
+    modalizeRef.current?.close()
   };
 
   return (
@@ -62,16 +64,17 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
         <View style={styles.modalContainer}>
           <TextInput
             autoFocus={true}
+            keyboardType="numeric"
             mode="outlined"
             placeholder="Введите сумму"
-            value={money.toString()}
+            defaultValue={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
           {isIncome ? (
             <TextInput
               mode="outlined"
               placeholder="Комментарий"
-              value={comment}
+              defaultValue={comment}
               onChangeText={text => setComment(text)}
             />
           ) : (
@@ -79,12 +82,12 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
               <TextInput
                 mode="outlined"
                 placeholder="Комментарий"
-                value={comment}
+                defaultValue={comment}
                 onChangeText={text => setComment(text)}
               />
               <TextInput mode="outlined"
                          placeholder="Категория"
-                         value={category}
+                         defaultValue={category}
                          onChangeText={text => setCategory(text)}
               />
             </>
