@@ -91,6 +91,17 @@ export default function Stats({ financeType }: Props) {
     }
   };
 
+  const declinationOperations = (count: number) => {
+    const singular: number[] = [2, 3, 4];
+    const plural: number[] = [0, 5, 6, 7, 8, 9];
+
+    if((11 <= count % 100 && count % 100 <= 14) || plural.includes(count % 10)) {
+      return "операций";
+    } else if(singular.includes(count % 10)){
+      return "операции"
+    } else return "операция"
+  }
+
   const emptyData = [{ value: 100, color: "#808080" }];
 
   return (
@@ -129,7 +140,7 @@ export default function Stats({ financeType }: Props) {
                   key={item.id}
                   description={
                     <Text>
-                      {item.operationCount} {item.operationCount == 1 ? "операция" : "операции"}
+                      {item.operationCount} {declinationOperations(item.operationCount)}
                     </Text>
                   }
                   left={() => (
