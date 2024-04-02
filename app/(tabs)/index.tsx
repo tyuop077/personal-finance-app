@@ -42,12 +42,14 @@ export default function TabOneScreen() {
                 <Text style={styles.transactionCategory}>{elem.category}</Text>
               </View>
               <View style={styles.elemsEachContainerRight}>
-                <Text
-                  style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
-                >
+                <Text style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
                   {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
                 </Text>
-                <Text style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green"}]}>₽</Text>
+                <Text
+                  style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
+                >
+                  ₽
+                </Text>
               </View>
             </View>
           ))}
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
   },
   elemsContainer: {
     display: "flex",
+    paddingBottom: 50,
   },
   elemsEachContainer: {
     flex: 1,
