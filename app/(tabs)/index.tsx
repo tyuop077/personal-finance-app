@@ -19,7 +19,7 @@ import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
-  const [selectedItem, setSelectedItem] = React.useState<FinanceItem | null>(null);
+  const [selectedItemIndex, setSelectedItemIndex] = React.useState<number | null>(null);
   const addModalizeRef = useRef<Modalize>();
   const editModalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
@@ -39,8 +39,8 @@ export default function TabOneScreen() {
     addModalizeRef.current?.open();
   };
 
-const handleEditOrDelete = (item: FinanceItem) => {
-  setSelectedItem(item);
+const handleEditOrDelete = (itemIndex: number) => {
+  setSelectedItemIndex(itemIndex);
   editModalizeRef.current?.open();
 }
 
@@ -49,10 +49,10 @@ const handleEditOrDelete = (item: FinanceItem) => {
       <ScrollView onScroll={onScroll}>
         <FinanceCard />
         <View style={styles.elemsContainer}>
-          {finances.financeModel.items.map(elem => (
+          {finances.financeModel.items.map((elem, index) => (
             <View key={elem.id}>
               <TouchableHighlight
-                onPress={_ => handleEditOrDelete(elem)}
+                onPress={_ => handleEditOrDelete(index)}
                 delayPressIn={100}
                 underlayColor={theme.colors.outlineVariant}>
                 <View style={styles.elemsEachContainer}>
@@ -86,7 +86,7 @@ const handleEditOrDelete = (item: FinanceItem) => {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItem={selectedItem} ></EditAndDeleteModal>
+      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItemIndex={selectedItemIndex} ></EditAndDeleteModal>
       <AddModal modalizeRef={addModalizeRef}></AddModal>
     </SafeAreaView>
   );

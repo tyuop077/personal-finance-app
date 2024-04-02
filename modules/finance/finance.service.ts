@@ -6,13 +6,12 @@ export default class FinanceService {
     return model;
   };
 
-  deleteFinanceItem = (model: FinanceModel, itemId: number) => {
-    model.items = model.items.filter(item => item.id !== itemId);
+  deleteFinanceItem = (model: FinanceModel, itemIndex: number) => {
+    model.items.splice(itemIndex, 1);
     return model;
   };
 
-  editFinanceItem(model: FinanceModel, editedItem: FinanceItem) {
-    const itemIndex = model.items.findIndex(item => item.id === editedItem.id);
+  editFinanceItem(model: FinanceModel, itemIndex: number, editedItem: FinanceItem) {
     model.items[itemIndex] = editedItem;
     return model;
   }

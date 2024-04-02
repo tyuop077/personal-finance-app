@@ -36,8 +36,8 @@ export class FinanceStore {
     }
   }
 
-  async editFinanceItem(editedItem: FinanceItem) {
-    this.financeModel = this.financeService.editFinanceItem(this.financeModel, editedItem);
+  async editFinanceItem(itemIndex: number, editedItem: FinanceItem) {
+    this.financeModel = this.financeService.editFinanceItem(this.financeModel, itemIndex, editedItem);
     await this.financeRepository.setItems(this.financeModel.items);
   }
 
@@ -50,8 +50,8 @@ export class FinanceStore {
     await this.financeRepository.setItems(this.financeModel.items);
   }
 
-  async deleteFinanceItem(itemId: number) {
-    this.financeModel = this.financeService.deleteFinanceItem(this.financeModel, itemId);
+  async deleteFinanceItem(itemIndex: number) {
+    this.financeModel = this.financeService.deleteFinanceItem(this.financeModel, itemIndex);
     await this.financeRepository.setItems(this.financeModel.items);
   }
 

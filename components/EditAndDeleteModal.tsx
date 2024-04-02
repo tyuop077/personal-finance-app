@@ -3,10 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
-import { FinanceItem } from "@/modules/finance/finance.model";
 import { useRootStore } from "@/hooks/useRootStore";
 
-const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: MutableRefObject<Modalize | undefined>, selectedItem: FinanceItem | null }) => {
+const EditAndDeleteModal = ({ modalizeRef, selectedItemIndex }: { modalizeRef: MutableRefObject<Modalize | undefined>, selectedItemIndex: number | null }) => {
   const theme = useTheme();
   const {finances } = useRootStore();
 
@@ -17,35 +16,39 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
   const [category, setCategory] = useState<string>("");
 
   useEffect(() => {
-    if (selectedItem === null)
+    if (selectedItemIndex === null)
       return;
 
+    const selectedItem = finances.financeModel.items[selectedItemIndex];
     setMoney(selectedItem.value);
     setTitle(selectedItem.title);
     if (selectedItem.comment !== undefined)
       setComment(selectedItem.comment);
     if (selectedItem.category !== undefined)
       setCategory(selectedItem.category);
-  }, [selectedItem]);
+  }, [selectedItemIndex]);
 
   const handleEditElem = () => {
-    if (selectedItem !== null) {
-      finances.editFinanceItem({
-        id: selectedItem.id,
-        title: title,
-        type: selectedItem.type,
-        comment: comment,
-        category: category,
-        value: money,
-        date: selectedItem.date
-      })
+    if (selectedItemIndex !== null) {
+      const selectedItem = finances.financeModel.items[selectedItemIndex];
+      finances.editFinanceItem(
+        selectedItemIndex,
+        {
+          id: selectedItem.id,
+          title: title,
+          type: selectedItem.type,
+          comment: comment,
+          category: category,
+          value: money,
+          date: selectedItem.date
+        })
     }
     modalizeRef.current?.close()
   };
 
   const handleDeleteElem = () => {
-    if (selectedItem !== null)
-      finances.deleteFinanceItem(selectedItem.id)
+    if (selectedItemIndex !== null)
+      finances.deleteFinanceItem(selectedItemIndex)
     modalizeRef.current?.close()
   };
 
