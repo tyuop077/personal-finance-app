@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
-import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
+import { FinanceItem } from "@/modules/finance/finance.model";
 import { useRootStore } from "@/hooks/useRootStore";
 
 const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: MutableRefObject<Modalize | undefined>, selectedItem: FinanceItem | null }) => {
@@ -13,21 +13,40 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
 
   if (selectedItem !== null) {
     if (money !== selectedItem.value)
       setMoney(selectedItem.value);
+
+    if (title !== selectedItem.title)
+      setTitle(selectedItem.title);
+
+    if (comment !== selectedItem.comment && selectedItem.comment !== undefined)
+        setComment(selectedItem.comment);
+
+    if (category !== selectedItem.category && selectedItem.category !== undefined)
+        setCategory(selectedItem.category);
   }
 
-  const handleAddNewElem = () => {
-    finances.addFinanceItem({
-      id: Number(new Date()),
-      title: title,
-      type: FinanceType.EXPENSE,
-      category: "еда",
-      value: money,
-      date: new Date(Date.now()),
-    });
+  const handleEditElem = () => {
+    if (selectedItem !== null) {
+      finances.editFinanceItem({
+        id: selectedItem.id,
+        title: title,
+        type: selectedItem.type,
+        comment: comment,
+        category: category,
+        value: money,
+        date: selectedItem.date
+      })
+    }
+  };
+
+  const handleDeleteElem = () => {
+    if (selectedItem !== null)
+      finances.deleteFinanceItem(selectedItem.id)
   };
 
   return (
@@ -49,15 +68,32 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItem }: { modalizeRef: Mutabl
             onChangeText={text => setMoney(Number(text))}
           />
           {isIncome ? (
-            <TextInput mode="outlined" placeholder="Комментарий" />
+            <TextInput
+              mode="outlined"
+              placeholder="Комментарий"
+              value={comment}
+              onChangeText={text => setComment(text)}
+            />
           ) : (
             <>
-              <TextInput mode="outlined" placeholder="Комментарий" />
-              <TextInput mode="outlined" placeholder="Категория" />
+              <TextInput
+                mode="outlined"
+                placeholder="Комментарий"
+                value={comment}
+                onChangeText={text => setComment(text)}
+              />
+              <TextInput mode="outlined"
+                         placeholder="Категория"
+                         value={category}
+                         onChangeText={text => setCategory(text)}
+              />
             </>
           )}
-          <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
+          <Button mode="contained" onPress={handleEditElem} style={styles.addButton}>
             Изменить
+          </Button>
+          <Button mode="contained" onPress={handleDeleteElem} style={styles.addButton}>
+            Удалить
           </Button>
         </View>
       </Modalize>

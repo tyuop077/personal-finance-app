@@ -11,6 +11,12 @@ export default class FinanceService {
     return model;
   };
 
+  editFinanceItem(model: FinanceModel, editedItem: FinanceItem) {
+    const itemIndex = model.items.findIndex(item => item.id === editedItem.id);
+    model.items[itemIndex] = editedItem;
+    return model;
+  }
+
   getFinanceItemsByDateRange = (model: FinanceModel, type: FinanceType, startDate: Date, endDate: Date): Map<string | undefined, FinanceItem[]> => {
     let filteredItems = model.items.filter(item =>
       (item.type == type && new Date(item.date) >= startDate && new Date(item.date) <= endDate));

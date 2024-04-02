@@ -36,6 +36,11 @@ export class FinanceStore {
     }
   }
 
+  async editFinanceItem(editedItem: FinanceItem) {
+    this.financeModel = this.financeService.editFinanceItem(this.financeModel, editedItem);
+    await this.financeRepository.setItems(this.financeModel.items);
+  }
+
   setIsLoading(value: boolean) {
     this.isLoading = value;
   }
