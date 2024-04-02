@@ -98,7 +98,9 @@ export default function Stats({ tempData, isExpense }: Props) {
   return (
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.baseContainer}>
-        <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>{sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>
+        <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>
+          {sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
+        </Text>
         <View style={styles.container}>
           <PieChart
             data={graphData.length == 0 ? emptyData : graphData}
@@ -120,7 +122,7 @@ export default function Stats({ tempData, isExpense }: Props) {
           />
         </View>
         <View>
-          <Text style={[styles.title, {color: theme.colors.onBackground}]}>Категории</Text>
+          <Text style={[styles.title, { color: theme.colors.onBackground }]}>Категории</Text>
           <List.Section>
             {categoryData.length == 0 ? (
               <List.Item title="Нет расходов" />
@@ -139,7 +141,11 @@ export default function Stats({ tempData, isExpense }: Props) {
                       <View style={[styles.circle, { backgroundColor: item.color }]} />
                     </View>
                   )}
-                  right={() => <Text style={[{color: theme.colors.onBackground}]}>{item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}</Text>}
+                  right={() => (
+                    <Text style={[{ color: theme.colors.onBackground }]}>
+                      {item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
+                    </Text>
+                  )}
                 />
               ))
             )}
