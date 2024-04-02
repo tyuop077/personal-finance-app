@@ -20,7 +20,7 @@ interface Props {
 }
 
 export default function Stats({ financeType }: Props) {
-  const {finances} = useRootStore();
+  const { finances } = useRootStore();
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [sum, setSum] = useState(0);
@@ -48,7 +48,7 @@ export default function Stats({ financeType }: Props) {
     let finance = finances.getFinanceItemsByDateRange(financeType, startDate, endDate);
     let sum = 0;
 
-    finance.forEach((value) => {
+    finance.forEach(value => {
       value.forEach(item => {
         sum += item.value;
       });
@@ -95,12 +95,12 @@ export default function Stats({ financeType }: Props) {
     const singular: number[] = [2, 3, 4];
     const plural: number[] = [0, 5, 6, 7, 8, 9];
 
-    if((11 <= count % 100 && count % 100 <= 14) || plural.includes(count % 10)) {
+    if ((11 <= count % 100 && count % 100 <= 14) || plural.includes(count % 10)) {
       return "операций";
-    } else if(singular.includes(count % 10)){
-      return "операции"
-    } else return "операция"
-  }
+    } else if (singular.includes(count % 10)) {
+      return "операции";
+    } else return "операция";
+  };
 
   const emptyData = [{ value: 100, color: "#808080" }];
 

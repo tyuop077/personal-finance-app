@@ -11,9 +11,15 @@ export default class FinanceService {
     return model;
   };
 
-  getFinanceItemsByDateRange = (model: FinanceModel, type: FinanceType, startDate: Date, endDate: Date): Map<string | undefined, FinanceItem[]> => {
-    let filteredItems = model.items.filter(item =>
-      (item.type == type && new Date(item.date) >= startDate && new Date(item.date) <= endDate));
+  getFinanceItemsByDateRange = (
+    model: FinanceModel,
+    type: FinanceType,
+    startDate: Date,
+    endDate: Date
+  ): Map<string | undefined, FinanceItem[]> => {
+    let filteredItems = model.items.filter(
+      item => item.type == type && new Date(item.date) >= startDate && new Date(item.date) <= endDate
+    );
 
     let result = new Map<string | undefined, FinanceItem[]>();
     filteredItems.forEach(value => {
