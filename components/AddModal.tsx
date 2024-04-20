@@ -44,6 +44,8 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
             autoFocus={true}
             mode="outlined"
             placeholder="Введите сумму"
+            keyboardType="numeric"
+            maxLength={10}
             onChangeText={text => setMoney(Number(text))}
           />
           {isIncome ? (
