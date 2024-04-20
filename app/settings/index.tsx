@@ -5,10 +5,6 @@ import TestBanner from "@/components/TestBanner";
 import { useState } from "react";
 
 export default function SettingsPage() {
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
-
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
   const handleOpenThemePage = () => {
     router.push("/settings/theme");
   };
@@ -17,20 +13,12 @@ export default function SettingsPage() {
     <>
       <Appbar.Header mode="large">
         <Appbar.BackAction onPress={router.back} />
-        <Appbar.Content title="Статистика" />
+        <Appbar.Content title="Настройки" />
       </Appbar.Header>
       <ScrollView style={styles.container}>
         <List.Section>
           <List.Subheader>Внешний вид</List.Subheader>
           <List.Item title="Тема" onPress={handleOpenThemePage} left={() => <List.Icon icon="palette" />} />
-        </List.Section>
-        <List.Section>
-          <List.Subheader>Общее</List.Subheader>
-          <List.Item
-            title="test"
-            onPress={onToggleSwitch}
-            left={() => <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />}
-          />
         </List.Section>
       </ScrollView>
     </>
