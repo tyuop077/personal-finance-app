@@ -23,6 +23,7 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
       value: money,
       date: new Date(Date.now()),
     });
+    modalizeRef.current?.close();
   };
 
   return (
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
   addButton: {
     flex: 1,
     width: 390,
-    alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
   },
