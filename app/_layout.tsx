@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Platform, useColorScheme, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FeatherIcons from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { IconProps } from "@expo/vector-icons/build/createIconSet";
 import { StatusBar } from "expo-status-bar";
 import { Inter_400Regular, Inter_500Medium, Inter_900Black } from "@expo-google-fonts/inter";
@@ -138,17 +139,16 @@ function RootLayoutNav() {
               icon = provider;
               provider = "material-community";
             }
-            const iconProps = { ...props, name: icon };
+            const iconProps = { ...props, name: icon as any }; // TODO icon as type `${provider}/${iconSet}`
             switch (provider) {
               case "awesome":
-                // @ts-ignore
                 return <AwesomeIcon {...iconProps} />;
               case "material-community":
-                // @ts-ignore
                 return <MaterialCommunityIcons {...iconProps} />;
               case "feather":
-                // @ts-ignore
                 return <FeatherIcons {...iconProps} />;
+              case "material":
+                return <MaterialIcons {...iconProps} />;
             }
           },
         }}
