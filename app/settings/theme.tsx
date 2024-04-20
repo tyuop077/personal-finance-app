@@ -20,13 +20,13 @@ export default function SettingsThemePage() {
       <List.Item
         title="Светлая"
         onPress={() => toggleTheme(ThemeState.LIGHT)}
-        left={() => <List.Icon icon="palette" />}
+        left={() => <List.Icon icon="material/highlight" />}
         titleStyle={buttonStyle(ThemeState.LIGHT)}
       />
       <List.Item
         title="Тёмная"
         onPress={() => toggleTheme(ThemeState.DARK)}
-        left={() => <List.Icon icon="palette" />}
+        left={() => <List.Icon icon="feather/moon" />}
         titleStyle={buttonStyle(ThemeState.DARK)}
       />
     </ScrollView>

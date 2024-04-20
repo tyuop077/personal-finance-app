@@ -47,6 +47,8 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
+    ...MaterialIcons.font,
+    ...FeatherIcons.font,
     Inter_400Regular,
     Inter_500Medium,
     Inter_900Black,
