@@ -41,13 +41,21 @@ export class FinanceStore {
   }
 
   async addFinanceItem(newItem: FinanceItem) {
-    this.financeModel = this.financeService.addFinanceItem(this.financeModel, newItem);
-    await this.financeRepository.setItems(this.financeModel.items);
+    this.setIsLoading(true);
+    await runInAction(async () => {
+      this.financeModel = this.financeService.addFinanceItem(this.financeModel, newItem);
+      await this.financeRepository.setItems(this.financeModel.items);
+    });
+    this.setIsLoading(false);
   }
 
   async deleteFinanceItem(itemId: number) {
-    this.financeModel = this.financeService.deleteFinanceItem(this.financeModel, itemId);
-    await this.financeRepository.setItems(this.financeModel.items);
+    this.setIsLoading(true);
+    await runInAction(async () => {
+      this.financeModel = this.financeService.deleteFinanceItem(this.financeModel, itemId);
+      await this.financeRepository.setItems(this.financeModel.items);
+    });
+    this.setIsLoading(false);
   }
 
   getFinanceItemsByDateRange(type: FinanceType, startDate: Date, endDate: Date) {
