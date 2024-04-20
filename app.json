@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "personal-finance-app",
+    "name": "Финансы",
     "slug": "personal-finance-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pfinance",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#1b1b1d",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1b1b1d"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -21,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1b1b1d"
       },
       "package": "ru.tyuop.financeapp"
     },
