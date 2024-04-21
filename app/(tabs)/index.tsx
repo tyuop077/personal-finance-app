@@ -36,6 +36,7 @@ export default function TabOneScreen() {
   }, []);
 
   const handleAdd = () => {
+    setSelectedItemIndex(null);
     addModalizeRef.current?.open();
   };
 
@@ -96,7 +97,7 @@ export default function TabOneScreen() {
         selectedItemIndex={selectedItemIndex}
         setSelectedItemIndex={setSelectedItemIndex}
       />
-      <AddModal modalizeRef={addModalizeRef}></AddModal>
+      <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex}></AddModal>
     </SafeAreaView>
   );
 }

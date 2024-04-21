@@ -6,7 +6,13 @@ import { Button, TextInput, useTheme } from "react-native-paper";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { useRootStore } from "@/hooks/useRootStore";
 
-const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | undefined> }) => {
+const AddModal = ({
+  modalizeRef,
+  setSelectedItemIndex,
+}: {
+  modalizeRef: MutableRefObject<Modalize | undefined>;
+  setSelectedItemIndex: (index: number | null) => void;
+}) => {
   const theme = useTheme();
   const { finances } = useRootStore();
 
@@ -23,6 +29,7 @@ const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | un
       value: money,
       date: new Date(Date.now()),
     });
+    setSelectedItemIndex(finances.financeModel.items.length - 1);
     modalizeRef.current?.close();
   };
 
