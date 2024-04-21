@@ -108,7 +108,7 @@ export default function Stats({ financeType }: Props) {
     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <View style={styles.baseContainer}>
         <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>
-          {sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
+          {sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB", minimumFractionDigits: 0 })}
         </Text>
         <View style={styles.container}>
           <PieChart
@@ -152,7 +152,11 @@ export default function Stats({ financeType }: Props) {
                   )}
                   right={() => (
                     <Text style={[{ color: theme.colors.onBackground }]}>
-                      {item.sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
+                      {item.sum.toLocaleString("ru-RU", {
+                        style: "currency",
+                        currency: "RUB",
+                        minimumFractionDigits: 0,
+                      })}
                     </Text>
                   )}
                 />

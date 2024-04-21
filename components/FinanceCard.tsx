@@ -14,7 +14,7 @@ export const FinanceCard = () => {
         <Text style={[styles.balanceValue, { color: theme.colors.onSecondaryContainer }]}>
           {finances.financeModel.items
             .reduce((acc, i) => acc + i.value, 0)
-            .toLocaleString("ru-RU", { style: "currency", currency: "RUB" })}
+            .toLocaleString("ru-RU", { style: "currency", currency: "RUB", minimumFractionDigits: 0 })}
         </Text>
       </View>
     </View>
