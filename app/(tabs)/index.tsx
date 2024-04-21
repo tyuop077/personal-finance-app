@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -39,10 +39,10 @@ export default function TabOneScreen() {
     addModalizeRef.current?.open();
   };
 
-const handleEditOrDelete = (itemIndex: number) => {
-  setSelectedItemIndex(itemIndex);
-  editModalizeRef.current?.open();
-}
+  const handleEditOrDelete = (itemIndex: number) => {
+    setSelectedItemIndex(itemIndex);
+    editModalizeRef.current?.open();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,26 +54,31 @@ const handleEditOrDelete = (itemIndex: number) => {
               <TouchableHighlight
                 onPress={_ => handleEditOrDelete(index)}
                 delayPressIn={100}
-                underlayColor={theme.colors.outlineVariant}>
+                underlayColor={theme.colors.outlineVariant}
+              >
                 <View style={styles.elemsEachContainer}>
                   <View style={styles.elemsEachContainerLeft}>
                     <Text style={styles.transactionTitle}>{elem.title}</Text>
                     <Text style={styles.transactionCategory}>{elem.category}</Text>
                   </View>
                   <View style={styles.elemsEachContainerRight}>
-                <Text style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
+                    <Text
+                      style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
+                    >
                       {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
                     </Text>
                     <Text
-                      style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
-                    >₽
+                      style={[
+                        styles.transactionCurrency,
+                        elem.type === FinanceType.EXPENSE ? null : { color: "green" },
+                      ]}
+                    >
+                      ₽
                     </Text>
                   </View>
                 </View>
-
               </TouchableHighlight>
             </View>
-
           ))}
         </View>
       </ScrollView>
@@ -86,7 +91,7 @@ const handleEditOrDelete = (itemIndex: number) => {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItemIndex={selectedItemIndex} ></EditAndDeleteModal>
+      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItemIndex={selectedItemIndex}></EditAndDeleteModal>
       <AddModal modalizeRef={addModalizeRef}></AddModal>
     </SafeAreaView>
   );

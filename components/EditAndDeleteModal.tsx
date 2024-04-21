@@ -5,9 +5,15 @@ import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
 import { useRootStore } from "@/hooks/useRootStore";
 
-const EditAndDeleteModal = ({ modalizeRef, selectedItemIndex }: { modalizeRef: MutableRefObject<Modalize | undefined>, selectedItemIndex: number | null }) => {
+const EditAndDeleteModal = ({
+  modalizeRef,
+  selectedItemIndex,
+}: {
+  modalizeRef: MutableRefObject<Modalize | undefined>;
+  selectedItemIndex: number | null;
+}) => {
   const theme = useTheme();
-  const {finances } = useRootStore();
+  const { finances } = useRootStore();
 
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
@@ -16,40 +22,34 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItemIndex }: { modalizeRef: M
   const [category, setCategory] = useState<string>("");
 
   useEffect(() => {
-    if (selectedItemIndex === null)
-      return;
+    if (selectedItemIndex === null) return;
 
     const selectedItem = finances.financeModel.items[selectedItemIndex];
     setMoney(selectedItem.value);
     setTitle(selectedItem.title);
-    if (selectedItem.comment !== undefined)
-      setComment(selectedItem.comment);
-    if (selectedItem.category !== undefined)
-      setCategory(selectedItem.category);
+    if (selectedItem.comment !== undefined) setComment(selectedItem.comment);
+    if (selectedItem.category !== undefined) setCategory(selectedItem.category);
   }, [selectedItemIndex]);
 
   const handleEditElem = () => {
     if (selectedItemIndex !== null) {
       const selectedItem = finances.financeModel.items[selectedItemIndex];
-      finances.editFinanceItem(
-        selectedItemIndex,
-        {
-          id: selectedItem.id,
-          title: title,
-          type: selectedItem.type,
-          comment: comment,
-          category: category,
-          value: money,
-          date: selectedItem.date
-        })
+      finances.editFinanceItem(selectedItemIndex, {
+        id: selectedItem.id,
+        title: title,
+        type: selectedItem.type,
+        comment: comment,
+        category: category,
+        value: money,
+        date: selectedItem.date,
+      });
     }
-    modalizeRef.current?.close()
+    modalizeRef.current?.close();
   };
 
   const handleDeleteElem = () => {
-    if (selectedItemIndex !== null)
-      finances.deleteFinanceItem(selectedItemIndex)
-    modalizeRef.current?.close()
+    if (selectedItemIndex !== null) finances.deleteFinanceItem(selectedItemIndex);
+    modalizeRef.current?.close();
   };
 
   return (
@@ -71,12 +71,7 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItemIndex }: { modalizeRef: M
             value={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
-          <TextInput
-            mode="outlined"
-            placeholder="title"
-            value={title}
-            onChangeText={text => setTitle(text)}
-          />
+          <TextInput mode="outlined" placeholder="title" value={title} onChangeText={text => setTitle(text)} />
           {isIncome ? (
             <TextInput
               mode="outlined"
@@ -92,10 +87,11 @@ const EditAndDeleteModal = ({ modalizeRef, selectedItemIndex }: { modalizeRef: M
                 value={comment}
                 onChangeText={text => setComment(text)}
               />
-              <TextInput mode="outlined"
-                         placeholder="Категория"
-                         value={category}
-                         onChangeText={text => setCategory(text)}
+              <TextInput
+                mode="outlined"
+                placeholder="Категория"
+                value={category}
+                onChangeText={text => setCategory(text)}
               />
             </>
           )}
