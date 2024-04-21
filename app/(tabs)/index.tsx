@@ -1,18 +1,27 @@
-import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { Button, TextInput, AnimatedFAB, useTheme } from "react-native-paper";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from "react-native";
+import React, { useEffect, useRef} from "react";
+import { AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
+import EditAndDeleteModal from "@/components/EditAndDeleteModal";
 import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
-import defaultFinance from "@/mock/defaultFinance";
 import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
   const [isExtended, setIsExtended] = React.useState(true);
-  const modalizeRef = useRef<Modalize>();
+  const [selectedItemIndex, setSelectedItemIndex] = React.useState<number | null>(null);
+  const addModalizeRef = useRef<Modalize>();
+  const editModalizeRef = useRef<Modalize>();
   const { finances } = useRootStore();
   const theme = useTheme();
 
@@ -27,31 +36,44 @@ export default function TabOneScreen() {
   }, []);
 
   const handleAdd = () => {
-    modalizeRef.current?.open();
+    addModalizeRef.current?.open();
   };
+
+const handleEditOrDelete = (itemIndex: number) => {
+  setSelectedItemIndex(itemIndex);
+  editModalizeRef.current?.open();
+}
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
         <FinanceCard />
         <View style={styles.elemsContainer}>
-          {finances.financeModel.items.map(elem => (
-            <View key={elem.id} style={styles.elemsEachContainer}>
-              <View style={styles.elemsEachContainerLeft}>
-                <Text style={styles.transactionTitle}>{elem.title}</Text>
-                <Text style={styles.transactionCategory}>{elem.category}</Text>
-              </View>
-              <View style={styles.elemsEachContainerRight}>
+          {finances.financeModel.items.map((elem, index) => (
+            <View key={elem.id}>
+              <TouchableHighlight
+                onPress={_ => handleEditOrDelete(index)}
+                delayPressIn={100}
+                underlayColor={theme.colors.outlineVariant}>
+                <View style={styles.elemsEachContainer}>
+                  <View style={styles.elemsEachContainerLeft}>
+                    <Text style={styles.transactionTitle}>{elem.title}</Text>
+                    <Text style={styles.transactionCategory}>{elem.category}</Text>
+                  </View>
+                  <View style={styles.elemsEachContainerRight}>
                 <Text style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}>
-                  {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
-                </Text>
-                <Text
-                  style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
-                >
-                  ₽
-                </Text>
-              </View>
+                      {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
+                    </Text>
+                    <Text
+                      style={[styles.transactionCurrency, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
+                    >₽
+                    </Text>
+                  </View>
+                </View>
+
+              </TouchableHighlight>
             </View>
+
           ))}
         </View>
       </ScrollView>
@@ -64,7 +86,8 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <AddModal modalizeRef={modalizeRef}></AddModal>
+      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItemIndex={selectedItemIndex} ></EditAndDeleteModal>
+      <AddModal modalizeRef={addModalizeRef}></AddModal>
     </SafeAreaView>
   );
 }
