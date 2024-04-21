@@ -14,7 +14,7 @@ import AddModal from "@/components/AddModal";
 import EditAndDeleteModal from "@/components/EditAndDeleteModal";
 import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
-import { FinanceItem, FinanceType } from "@/modules/finance/finance.model";
+import { FinanceType } from "@/modules/finance/finance.model";
 import { FinanceCard } from "@/components/FinanceCard";
 
 export default function TabOneScreen() {
@@ -91,7 +91,11 @@ export default function TabOneScreen() {
         iconMode="dynamic"
         style={[styles.fabStyle]}
       />
-      <EditAndDeleteModal modalizeRef={editModalizeRef} selectedItemIndex={selectedItemIndex}></EditAndDeleteModal>
+      <EditAndDeleteModal
+        modalizeRef={editModalizeRef}
+        selectedItemIndex={selectedItemIndex}
+        setSelectedItemIndex={setSelectedItemIndex}
+      />
       <AddModal modalizeRef={addModalizeRef}></AddModal>
     </SafeAreaView>
   );

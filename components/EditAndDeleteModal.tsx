@@ -8,9 +8,11 @@ import { useRootStore } from "@/hooks/useRootStore";
 const EditAndDeleteModal = ({
   modalizeRef,
   selectedItemIndex,
+  setSelectedItemIndex,
 }: {
   modalizeRef: MutableRefObject<Modalize | undefined>;
   selectedItemIndex: number | null;
+  setSelectedItemIndex: (index: number | null) => void;
 }) => {
   const theme = useTheme();
   const { finances } = useRootStore();
@@ -44,11 +46,13 @@ const EditAndDeleteModal = ({
         date: selectedItem.date,
       });
     }
+    setSelectedItemIndex(null);
     modalizeRef.current?.close();
   };
 
   const handleDeleteElem = () => {
     if (selectedItemIndex !== null) finances.deleteFinanceItem(selectedItemIndex);
+    setSelectedItemIndex(null);
     modalizeRef.current?.close();
   };
 
@@ -67,7 +71,7 @@ const EditAndDeleteModal = ({
             autoFocus={true}
             keyboardType="numeric"
             mode="outlined"
-            placeholder="Введите сумму"
+            placeholder={"Введите сумму"}
             value={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
