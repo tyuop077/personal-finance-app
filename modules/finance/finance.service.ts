@@ -11,6 +11,11 @@ export default class FinanceService {
     return model;
   };
 
+  editFinanceItem(model: FinanceModel, itemId: number, editedItem: FinanceItem) {
+    model.items[itemId] = editedItem;
+    return model;
+  }
+
   getFinanceItemsByDateRange = (
     model: FinanceModel,
     type: FinanceType,
