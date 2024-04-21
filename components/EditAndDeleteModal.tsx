@@ -23,10 +23,11 @@ const EditAndDeleteModal = ({
   const [comment, setComment] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
-  useEffect(() => {
-    if (selectedItemIndex === null) return;
+  const selectedItem = selectedItemIndex ? finances.financeModel.items[selectedItemIndex] : null;
 
-    const selectedItem = finances.financeModel.items[selectedItemIndex];
+  useEffect(() => {
+    if (!selectedItem) return;
+
     setMoney(selectedItem.value);
     setTitle(selectedItem.title);
     if (selectedItem.comment !== undefined) setComment(selectedItem.comment);
@@ -34,8 +35,7 @@ const EditAndDeleteModal = ({
   }, [selectedItemIndex]);
 
   const handleEditElem = () => {
-    if (selectedItemIndex !== null) {
-      const selectedItem = finances.financeModel.items[selectedItemIndex];
+    if (selectedItemIndex !== null && selectedItem) {
       finances.editFinanceItem(selectedItemIndex, {
         id: selectedItem.id,
         title: title,
@@ -51,7 +51,7 @@ const EditAndDeleteModal = ({
   };
 
   const handleDeleteElem = () => {
-    if (selectedItemIndex !== null) finances.deleteFinanceItem(selectedItemIndex);
+    if (selectedItem) finances.deleteFinanceItem(selectedItem.id);
     setSelectedItemIndex(null);
     modalizeRef.current?.close();
   };
