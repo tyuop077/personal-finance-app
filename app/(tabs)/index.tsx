@@ -66,15 +66,12 @@ export default function TabOneScreen() {
                     <Text
                       style={[styles.transactionValue, elem.type === FinanceType.EXPENSE ? null : { color: "green" }]}
                     >
-                      {elem.type == FinanceType.EXPENSE ? `-${elem.value}` : `+${elem.value}`}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.transactionCurrency,
-                        elem.type === FinanceType.EXPENSE ? null : { color: "green" },
-                      ]}
-                    >
-                      ₽
+                      {elem.type == FinanceType.EXPENSE ? `-` : `+`}
+                      {elem.value.toLocaleString("ru-RU", {
+                        style: "currency",
+                        currency: "RUB",
+                        minimumFractionDigits: 0,
+                      })}
                     </Text>
                   </View>
                 </View>
@@ -145,10 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   transactionValue: {
-    fontSize: 16,
-  },
-  transactionCurrency: {
-    marginLeft: 3,
     fontSize: 16,
   },
 });
