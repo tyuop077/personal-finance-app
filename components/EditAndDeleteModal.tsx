@@ -95,10 +95,10 @@ const EditAndDeleteModal = ({
               />
             </>
           )}
-          <Button mode="contained" onPress={handleEditElem} style={styles.addButton}>
+          <Button mode="contained" onPress={handleEditElem} style={styles.button}>
             Изменить
           </Button>
-          <Button mode="contained" onPress={handleDeleteElem} style={styles.addButton}>
+          <Button mode="contained" onPress={handleDeleteElem} style={styles.button}>
             Удалить
           </Button>
         </View>
@@ -117,10 +117,9 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
   },
-  addButton: {
+  button: {
     flex: 1,
     width: 390,
-    alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
   },
