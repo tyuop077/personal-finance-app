@@ -41,10 +41,6 @@
       "router": {
         "origin": false
       },
-      "eas": {
-        "projectId": "fb35713a-5db3-4f4b-85ee-50ebb5c13ab9"
-      }
     },
-    "owner": "tyuop077"
   }
 }
