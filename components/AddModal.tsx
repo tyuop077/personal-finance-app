@@ -34,8 +34,8 @@ const AddModal = ({
     });
     setSelectedItemIndex(finances.financeModel.items.length - 1);
     modalizeRef.current?.close();
-    setCategory('')
-    setComment('')
+    setCategory("");
+    setComment("");
   };
 
   return (
@@ -56,22 +56,22 @@ const AddModal = ({
           <TextInput
             autoFocus={true}
             mode="outlined"
-            placeholder= {isIncome ? "Введите сумму дохода" : "Введите сумму расхода"}
+            placeholder={isIncome ? "Введите сумму дохода" : "Введите сумму расхода"}
             keyboardType="numeric"
             maxLength={10}
             onChangeText={text => setMoney(Number(text))}
           />
           {isIncome ? (
             <>
-              <TextInput mode="outlined" placeholder="Заголовок" onChangeText={(text) => setTitle(text)}/>
-              <TextInput mode="outlined" placeholder="Комментарий" onChangeText={(text) => setComment(text)}/>
-              <TextInput mode="outlined" placeholder="Категория" onChangeText={(text) => setCategory(text)}/>
+              <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
+              <TextInput mode="outlined" placeholder="Комментарий" onChangeText={text => setComment(text)} />
+              <TextInput mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
             </>
           ) : (
             <>
-              <TextInput mode="outlined" placeholder="Заголовок" onChangeText={(text) => setTitle(text)}/>
-              <TextInput mode="outlined" placeholder="Комментарий" onChangeText={(text) => setComment(text)} />
-              <TextInput mode="outlined" placeholder="Категория" onChangeText={(text) => setCategory(text)}/>
+              <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
+              <TextInput mode="outlined" placeholder="Комментарий" onChangeText={text => setComment(text)} />
+              <TextInput mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
             </>
           )}
           <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
