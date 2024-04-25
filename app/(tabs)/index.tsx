@@ -126,22 +126,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   elemsEachContainerLeft: {
-    flex: 3,
+    flex: 5,
     flexDirection: "column",
     justifyContent: "center",
   },
   transactionTitle: {
-    fontSize: 16,
+    fontSize: 15,
   },
   transactionCategory: {
     fontSize: 13,
   },
   elemsEachContainerRight: {
-    flex: 1,
+    flex: 3,
     flexDirection: "row",
     justifyContent: "flex-end",
   },
   transactionValue: {
-    fontSize: 16,
+    fontSize: 15,
   },
 });
