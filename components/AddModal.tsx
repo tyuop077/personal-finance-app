@@ -53,6 +53,7 @@ const AddModal = ({
             <Button onPress={() => setIsIncome(true)}>Доход</Button>
             <Button onPress={() => setIsIncome(false)}>Расход</Button>
           </View>
+          <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
           <TextInput
             autoFocus={true}
             mode="outlined"
@@ -61,7 +62,6 @@ const AddModal = ({
             maxLength={10}
             onChangeText={text => setMoney(Number(text))}
           />
-          <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
           <TextInput mode="outlined" placeholder="Комментарий" onChangeText={text => setComment(text)} />
           <TextInput mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
           <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
