@@ -56,14 +56,8 @@ const AddModal = ({
             maxLength={10}
             onChangeText={text => setMoney(Number(text))}
           />
-          {isIncome ? (
-            <TextInput mode="outlined" placeholder="Комментарий" />
-          ) : (
-            <>
-              <TextInput mode="outlined" placeholder="Комментарий" />
-              <TextInput mode="outlined" placeholder="Категория" />
-            </>
-          )}
+          <TextInput mode="outlined" placeholder="Комментарий" />
+          <TextInput mode="outlined" placeholder="Категория" />
           <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
             Добавить
           </Button>
