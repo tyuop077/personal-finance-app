@@ -45,6 +45,14 @@ export default function TabOneScreen() {
     editModalizeRef.current?.open();
   };
 
+  const trimStringIfLarger = (str: string) => {
+    if (str.length > 20) {
+      str = str.substring(0, 20)
+      str += "..."
+    }
+    return str
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView onScroll={onScroll}>
@@ -59,7 +67,7 @@ export default function TabOneScreen() {
               >
                 <View style={styles.elemsEachContainer}>
                   <View style={styles.elemsEachContainerLeft}>
-                    <Text style={styles.transactionTitle}>{elem.title}</Text>
+                    <Text style={styles.transactionTitle}>{trimStringIfLarger(elem.title)}</Text>
                     <Text style={styles.transactionCategory}>{elem.category}</Text>
                   </View>
                   <View style={styles.elemsEachContainerRight}>
