@@ -19,18 +19,23 @@ const AddModal = ({
   const [isIncome, setIsIncome] = useState<boolean>(false);
   const [money, setMoney] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
 
   const handleAddNewElem = () => {
     finances.addFinanceItem({
       id: Number(new Date()),
       title: title,
-      type: FinanceType.EXPENSE,
-      category: "еда",
+      type: isIncome ? FinanceType.INCOME : FinanceType.EXPENSE,
+      category: category,
+      comment: comment,
       value: money,
       date: new Date(Date.now()),
     });
     setSelectedItemIndex(finances.financeModel.items.length - 1);
     modalizeRef.current?.close();
+    setCategory("");
+    setComment("");
   };
 
   return (
@@ -51,13 +56,14 @@ const AddModal = ({
           <TextInput
             autoFocus={true}
             mode="outlined"
-            placeholder="Введите сумму"
+            placeholder={isIncome ? "Введите сумму дохода" : "Введите сумму расхода"}
             keyboardType="numeric"
             maxLength={10}
             onChangeText={text => setMoney(Number(text))}
           />
-          <TextInput mode="outlined" placeholder="Комментарий" />
-          <TextInput mode="outlined" placeholder="Категория" />
+          <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
+          <TextInput mode="outlined" placeholder="Комментарий" onChangeText={text => setComment(text)} />
+          <TextInput mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
           <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
             Добавить
           </Button>
