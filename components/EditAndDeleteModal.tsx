@@ -76,29 +76,18 @@ const EditAndDeleteModal = ({
             onChangeText={text => setMoney(Number(text))}
           />
           <TextInput mode="outlined" placeholder="title" value={title} onChangeText={text => setTitle(text)} />
-          {isIncome ? (
-            <TextInput
-              mode="outlined"
-              placeholder="Комментарий"
-              value={comment}
-              onChangeText={text => setComment(text)}
-            />
-          ) : (
-            <>
-              <TextInput
-                mode="outlined"
-                placeholder="Комментарий"
-                value={comment}
-                onChangeText={text => setComment(text)}
-              />
-              <TextInput
-                mode="outlined"
-                placeholder="Категория"
-                value={category}
-                onChangeText={text => setCategory(text)}
-              />
-            </>
-          )}
+          <TextInput
+            mode="outlined"
+            placeholder="Комментарий"
+            value={comment}
+            onChangeText={text => setComment(text)}
+          />
+          <TextInput
+            mode="outlined"
+            placeholder="Категория"
+            value={category}
+            onChangeText={text => setCategory(text)}
+          />
           <Button mode="contained" onPress={handleEditElem} style={styles.button}>
             Изменить
           </Button>
