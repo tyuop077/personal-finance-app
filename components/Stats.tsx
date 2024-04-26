@@ -118,7 +118,7 @@ export default function Stats({ financeType }: Props) {
             sectionAutoFocus
             radius={100}
             innerRadius={80}
-            innerCircleColor={theme.colors.tertiaryContainer}
+            innerCircleColor={theme.colors.onSecondary}
             centerLabelComponent={() => {
               return (
                 <View style={styles.container}>
