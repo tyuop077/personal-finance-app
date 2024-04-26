@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
-import { AnimatedFAB, useTheme } from "react-native-paper";
+import { ActivityIndicator, AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -87,6 +87,7 @@ const MainPage = observer(() => {
               </TouchableHighlight>
             </View>
           ))}
+          {finances.isLoading && <ActivityIndicator />}
         </View>
       </ScrollView>
       <AnimatedFAB
@@ -103,7 +104,7 @@ const MainPage = observer(() => {
         selectedItemIndex={selectedItemIndex}
         setSelectedItemIndex={setSelectedItemIndex}
       />
-      <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex}></AddModal>
+      <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex} />
     </SafeAreaView>
   );
 });
