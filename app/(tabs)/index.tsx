@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
-import { AnimatedFAB, useTheme } from "react-native-paper";
+import { ActivityIndicator, AnimatedFAB, useTheme } from "react-native-paper";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddModal from "@/components/AddModal";
@@ -16,8 +16,9 @@ import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { FinanceCard } from "@/components/FinanceCard";
+import { observer } from "mobx-react";
 
-export default function TabOneScreen() {
+const MainPage = observer(() => {
   const [isExtended, setIsExtended] = React.useState(true);
   const [selectedItemIndex, setSelectedItemIndex] = React.useState<number | null>(null);
   const addModalizeRef = useRef<Modalize>();
@@ -36,7 +37,6 @@ export default function TabOneScreen() {
   }, []);
 
   const handleAdd = () => {
-    setSelectedItemIndex(null);
     addModalizeRef.current?.open();
   };
 
@@ -47,11 +47,11 @@ export default function TabOneScreen() {
 
   const trimStringIfLarger = (str: string) => {
     if (str.length > 20) {
-      str = str.substring(0, 20)
-      str += "..."
+      str = str.substring(0, 20);
+      str += "...";
     }
-    return str
-  }
+    return str;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,6 +86,7 @@ export default function TabOneScreen() {
               </TouchableHighlight>
             </View>
           ))}
+          {finances.isLoading && <ActivityIndicator />}
         </View>
       </ScrollView>
       <AnimatedFAB
@@ -102,10 +103,10 @@ export default function TabOneScreen() {
         selectedItemIndex={selectedItemIndex}
         setSelectedItemIndex={setSelectedItemIndex}
       />
-      <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex}></AddModal>
+      <AddModal modalizeRef={addModalizeRef} />
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -153,3 +154,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+export default MainPage;

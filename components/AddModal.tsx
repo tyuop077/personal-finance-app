@@ -6,13 +6,7 @@ import { Button, TextInput, useTheme } from "react-native-paper";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { useRootStore } from "@/hooks/useRootStore";
 
-const AddModal = ({
-  modalizeRef,
-  setSelectedItemIndex,
-}: {
-  modalizeRef: MutableRefObject<Modalize | undefined>;
-  setSelectedItemIndex: (index: number | null) => void;
-}) => {
+const AddModal = ({ modalizeRef }: { modalizeRef: MutableRefObject<Modalize | undefined> }) => {
   const theme = useTheme();
   const { finances } = useRootStore();
 
@@ -32,7 +26,6 @@ const AddModal = ({
       value: money,
       date: new Date(Date.now()),
     });
-    setSelectedItemIndex(finances.financeModel.items.length - 1);
     modalizeRef.current?.close();
     setCategory("");
     setComment("");
@@ -50,10 +43,18 @@ const AddModal = ({
       >
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)} 
-            style={{backgroundColor: isIncome ? theme.colors.onSecondary : theme.colors.background}}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)} 
-            style={{backgroundColor: isIncome ? theme.colors.background : theme.colors.onSecondary}}>Расход</Button>
+            <Button
+              onPress={() => setIsIncome(true)}
+              style={{ backgroundColor: isIncome ? theme.colors.onSecondary : theme.colors.background }}
+            >
+              Доход
+            </Button>
+            <Button
+              onPress={() => setIsIncome(false)}
+              style={{ backgroundColor: isIncome ? theme.colors.background : theme.colors.onSecondary }}
+            >
+              Расход
+            </Button>
           </View>
           <TextInput
             autoFocus={true}
