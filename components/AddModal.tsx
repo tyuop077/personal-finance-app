@@ -16,7 +16,7 @@ const AddModal = ({
   const theme = useTheme();
   const { finances } = useRootStore();
 
-  const [isIncome, setIsIncome] = useState<boolean>(false);
+  const [isIncome, setIsIncome] = useState<boolean>(true);
   const [money, setMoney] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
   const [comment, setComment] = useState<string>("");
@@ -50,8 +50,10 @@ const AddModal = ({
       >
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)}>Расход</Button>
+            <Button onPress={() => setIsIncome(true)} 
+            style={{backgroundColor: isIncome ? theme.colors.onSecondary : theme.colors.background}}>Доход</Button>
+            <Button onPress={() => setIsIncome(false)} 
+            style={{backgroundColor: isIncome ? theme.colors.background : theme.colors.onSecondary}}>Расход</Button>
           </View>
           <TextInput
             autoFocus={true}
