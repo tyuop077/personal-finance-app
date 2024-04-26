@@ -1,10 +1,14 @@
 import React, { MutableRefObject, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableHighlight, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { useRootStore } from "@/hooks/useRootStore";
+import { FieldsConstants } from "@/constants/FieldsConstants";
+import { ButtonGroup } from '@rneui/themed';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { number } from "prop-types";
 
 const AddModal = ({
   modalizeRef,
@@ -21,6 +25,8 @@ const AddModal = ({
   const [title, setTitle] = useState<string>("");
   const [comment, setComment] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
 
   const handleAddNewElem = () => {
     finances.addFinanceItem({
@@ -38,6 +44,15 @@ const AddModal = ({
     setComment("");
   };
 
+  const handleTransactionType = (index: number) => {
+    setSelectedIndex(index)
+    if (index === 0) {
+      setIsIncome(true)
+    }
+    else
+      setIsIncome(false)
+  }
+
   return (
     <Portal>
       <Modalize
@@ -50,20 +65,49 @@ const AddModal = ({
       >
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)}>Расход</Button>
+            <ButtonGroup
+              Component={TouchableOpacity}
+              activeOpacity={0.6}
+              containerStyle={{
+                width: "40%",
+                height: "100%",
+                borderColor: "transparent",
+                backgroundColor: "transparent",
+                paddingVertical: 8
+              }}
+              buttonStyle={{ padding: 8 }}
+              selectedButtonStyle={{
+                backgroundColor: theme.colors.elevation.level5,
+                borderRadius: 30 }}
+              textStyle={{color: theme.colors.primary, fontSize: 16, fontFamily: "sans-serif-medium"}}
+              selectedTextStyle={{color: theme.colors.primary}}
+              innerBorderStyle={{color: "transparent"}}
+              buttons={[
+                'Доход', 'Расход'
+              ]}
+              selectedIndex={selectedIndex}
+              onPress={(selectedIndex) => handleTransactionType(selectedIndex)}
+            />
+
           </View>
-          <TextInput mode="outlined" placeholder="Заголовок" onChangeText={text => setTitle(text)} />
+          <TextInput
+            maxLength={FieldsConstants.titleLengthLimit}
+            mode="outlined"
+            placeholder="Заголовок"
+            onChangeText={text => setTitle(text)} />
           <TextInput
             autoFocus={true}
             mode="outlined"
             placeholder={isIncome ? "Введите сумму дохода" : "Введите сумму расхода"}
             keyboardType="numeric"
-            maxLength={10}
+            maxLength={FieldsConstants.valueLengthLimit}
             onChangeText={text => setMoney(Number(text))}
           />
-          <TextInput mode="outlined" placeholder="Комментарий" onChangeText={text => setComment(text)} />
-          <TextInput mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
+          <TextInput
+            maxLength={FieldsConstants.commentLengthLimit}
+            mode="outlined" placeholder="Комментарий"
+            onChangeText={text => setComment(text)} />
+          <TextInput maxLength={FieldsConstants.categoryLengthLimit} mode="outlined" placeholder="Категория" onChangeText={text => setCategory(text)} />
           <Button mode="contained" onPress={handleAddNewElem} style={styles.addButton}>
             Добавить
           </Button>
