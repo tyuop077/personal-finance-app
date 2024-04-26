@@ -67,6 +67,7 @@ const EditAndDeleteModal = ({
         modalStyle={{ backgroundColor: theme.colors.background }}
       >
         <View style={styles.modalContainer}>
+          <TextInput mode="outlined" placeholder="title" value={title} onChangeText={text => setTitle(text)} />
           <TextInput
             autoFocus={true}
             keyboardType="numeric"
@@ -75,7 +76,6 @@ const EditAndDeleteModal = ({
             value={money.toString()}
             onChangeText={text => setMoney(Number(text))}
           />
-          <TextInput mode="outlined" placeholder="title" value={title} onChangeText={text => setTitle(text)} />
           <TextInput
             mode="outlined"
             placeholder="Комментарий"
