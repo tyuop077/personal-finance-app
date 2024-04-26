@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useState } from "react";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
@@ -47,10 +47,10 @@ const AddModal = ({
   const handleTransactionType = (index: number) => {
     setSelectedIndex(index)
     if (index === 0) {
-      setIsIncome(true)
+      setIsIncome(false)
     }
     else
-      setIsIncome(false)
+      setIsIncome(true)
   }
 
   return (
@@ -68,18 +68,12 @@ const AddModal = ({
             <ButtonGroup
               Component={TouchableOpacity}
               activeOpacity={0.6}
-              containerStyle={{
-                width: "40%",
-                height: "100%",
-                borderColor: "transparent",
-                backgroundColor: "transparent",
-                paddingVertical: 8
-              }}
-              buttonStyle={{ padding: 8 }}
-              selectedButtonStyle={{
+              containerStyle={buttonGroupStyles.containerStyle}
+              buttonStyle={buttonGroupStyles.buttonStyle}
+              selectedButtonStyle={{...buttonGroupStyles.selectedButtonStyle,
                 backgroundColor: theme.colors.elevation.level5,
-                borderRadius: 30 }}
-              textStyle={{color: theme.colors.primary, fontSize: 16, fontFamily: "sans-serif-medium"}}
+              }}
+              textStyle={{...buttonGroupStyles.textStyle, color: theme.colors.primary}}
               selectedTextStyle={{color: theme.colors.primary}}
               innerBorderStyle={{color: "transparent"}}
               buttons={[
@@ -132,7 +126,25 @@ const styles = StyleSheet.create({
     width: 390,
     justifyContent: "center",
     textAlign: "center",
-  },
+  }
 });
+
+const buttonGroupStyles = StyleSheet.create({
+  containerStyle: {
+    width: "40%",
+    height: "100%",
+    borderColor: "transparent",
+    backgroundColor: "transparent",
+  },
+  buttonStyle: {
+    padding: 8
+  },
+  selectedButtonStyle: {
+    borderRadius: 30
+  },
+  textStyle: {
+    fontSize: 16, fontFamily: "sans-serif-medium"
+  }
+})
 
 export default AddModal;
