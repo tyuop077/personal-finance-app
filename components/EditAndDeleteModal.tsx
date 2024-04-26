@@ -4,6 +4,7 @@ import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { Button, TextInput, useTheme } from "react-native-paper";
 import { useRootStore } from "@/hooks/useRootStore";
+import { FieldsConstants } from "@/constants/FieldsConstants";
 
 const EditAndDeleteModal = ({
   modalizeRef,
@@ -67,25 +68,33 @@ const EditAndDeleteModal = ({
         modalStyle={{ backgroundColor: theme.colors.background }}
       >
         <View style={styles.modalContainer}>
-          <TextInput mode="outlined" placeholder="title" value={title} onChangeText={text => setTitle(text)} />
+          <TextInput
+            mode="outlined"
+            placeholder="title"
+            value={title}
+            maxLength={FieldsConstants.titleLengthLimit}
+            onChangeText={text => setTitle(text)} />
           <TextInput
             autoFocus={true}
             keyboardType="numeric"
             mode="outlined"
             placeholder={"Введите сумму"}
             value={money.toString()}
+            maxLength={FieldsConstants.valueLengthLimit}
             onChangeText={text => setMoney(Number(text))}
           />
           <TextInput
             mode="outlined"
             placeholder="Комментарий"
             value={comment}
+            maxLength={FieldsConstants.commentLengthLimit}
             onChangeText={text => setComment(text)}
           />
           <TextInput
             mode="outlined"
             placeholder="Категория"
             value={category}
+            maxLength={FieldsConstants.categoryLengthLimit}
             onChangeText={text => setCategory(text)}
           />
           <Button mode="contained" onPress={handleEditElem} style={styles.button}>
