@@ -70,4 +70,22 @@ export class FinanceStore {
   getFinanceItemsByDateRange(type: FinanceType, startDate: Date, endDate: Date) {
     return this.financeService.getFinanceItemsByDateRange(this.financeModel, type, startDate, endDate);
   }
+
+  async resetToMock() {
+    this.setIsLoading(true);
+    await runInAction(async () => {
+      await this.financeRepository.removeAll();
+      this.financeModel.items = [];
+    });
+    this.setIsLoading(false);
+  }
+
+  async resetToEmpty() {
+    this.setIsLoading(true);
+    await runInAction(async () => {
+      await this.financeRepository.setItems(defaultFinance);
+      this.financeModel.items = defaultFinance;
+    });
+    this.setIsLoading(false);
+  }
 }

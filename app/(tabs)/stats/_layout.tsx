@@ -27,19 +27,17 @@ export default function StatsPage() {
   };
 
   const handleReset = () => {
-    runInAction(() => {
-      finances.financeRepository.removeAll();
-      finances.financeModel.items = [];
+    finances.resetToMock().then(() => {
+      setVisible(false);
+      router.replace("/");
     });
-    alert("Перезапустите для обновления");
   };
 
   const handleResetDefault = () => {
-    runInAction(() => {
-      finances.financeRepository.setItems(defaultFinance);
-      finances.financeModel.items = defaultFinance;
+    finances.resetToEmpty().then(() => {
+      setVisible(false);
+      router.replace("/");
     });
-    alert("Перезапустите для обновления");
   };
 
   return (
