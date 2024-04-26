@@ -102,7 +102,7 @@ const EditAndDeleteModal = ({
           <Button mode="contained" onPress={handleEditElem} style={styles.button}>
             Изменить
           </Button>
-          <Button mode="contained" onPress={handleDeleteElem} style={styles.button}>
+          <Button mode="contained" buttonColor={theme.colors.error} onPress={handleDeleteElem} style={styles.button}>
             Удалить
           </Button>
         </View>
