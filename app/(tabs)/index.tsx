@@ -37,7 +37,6 @@ const MainPage = observer(() => {
   }, []);
 
   const handleAdd = () => {
-    setSelectedItemIndex(null);
     addModalizeRef.current?.open();
   };
 
@@ -104,7 +103,7 @@ const MainPage = observer(() => {
         selectedItemIndex={selectedItemIndex}
         setSelectedItemIndex={setSelectedItemIndex}
       />
-      <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex} />
+      <AddModal modalizeRef={addModalizeRef} />
     </SafeAreaView>
   );
 });
