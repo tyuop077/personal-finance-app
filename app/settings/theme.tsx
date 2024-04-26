@@ -29,6 +29,12 @@ export default function SettingsThemePage() {
         left={() => <List.Icon icon="feather/moon" />}
         titleStyle={buttonStyle(ThemeState.DARK)}
       />
+      <List.Item
+        title="Своя"
+        onPress={() => toggleTheme(ThemeState.DARK)}
+        left={() => <List.Icon icon="feather/moon" />}
+        titleStyle={buttonStyle(ThemeState.DARK)}
+      />
     </ScrollView>
   );
 }
