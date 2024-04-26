@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { Dimensions, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { Text, List, useTheme } from "react-native-paper";
 import { PieChart, pieDataItem } from "react-native-gifted-charts";
 import { monthNames } from "@/constants/monthNames";
@@ -6,6 +6,10 @@ import React, { useEffect, useState } from "react";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { GraphColors } from "@/constants/Colors";
 import { useRootStore } from "@/hooks/useRootStore";
+import Carousel from "react-native-reanimated-carousel/src/Carousel";
+import { Container } from "postcss";
+import { set } from "mobx";
+
 
 interface CategoryDataItem {
   id: string;
@@ -19,32 +23,44 @@ interface Props {
   financeType: FinanceType;
 }
 
+interface MonthData {
+  graphData: pieDataItem[]
+  categoryData: CategoryData[]
+  sum: number
+  startDate: Date,
+  endDate: Date
+}
+
+interface CategoryData {
+  id: string;
+  category: string;
+  color: string;
+  sum: number;
+  operationCount: number;
+}
+
+const PAGE_WIDTH = Dimensions.get("window").width;
+
 export default function Stats({ financeType }: Props) {
   const { finances } = useRootStore();
-  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
   const [sum, setSum] = useState(0);
-  const [graphData, setGraphData] = useState<pieDataItem[]>([]);
-  const [categoryData, setCategoryData] = useState<CategoryDataItem[]>([]);
-
-  const [refreshing, setRefreshing] = React.useState(false);
-
+  const [data, setData] = useState<Array<MonthData>>([]);
+  const [globalIndex, setGlobalIndex] = useState<number>(0);
   const theme = useTheme();
 
-  useEffect(() => {
-    finances.getFinances();
-    getFinances();
-  }, []);
+  const indexToDate = (index: number) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getFinances();
-    setRefreshing(false);
-  }, []);
+    let targetMonth = (currentMonth - index) % 12;
+    let targetYear = currentYear - Math.floor((currentMonth - index) / 12);
 
-  const getFinances = () => {
-    let startDate = new Date(currentYear, currentMonth, 1);
-    let endDate = getNextDate(currentYear, currentMonth);
+    return new Date(targetYear, targetMonth, 1);
+  };
+
+  const getChartFinances = (index: number): MonthData => {
+    let startDate = indexToDate(index);
+    let endDate = getNextDate(startDate.getFullYear(), startDate.getMonth());
     let finance = finances.getFinanceItemsByDateRange(financeType, startDate, endDate);
     let sum = 0;
 
@@ -54,7 +70,7 @@ export default function Stats({ financeType }: Props) {
       });
     });
 
-    let index = 0;
+    let colorIndex = 0;
     let graphData: pieDataItem[] = [];
     let categoryData: CategoryDataItem[] = [];
 
@@ -64,24 +80,22 @@ export default function Stats({ financeType }: Props) {
         valueSum += item.value;
       });
 
-      graphData.push({ value: (valueSum / sum) * 100, color: GraphColors[index] });
+      graphData.push({ value: (valueSum / sum) * 100, color: GraphColors[colorIndex++] });
+
       categoryData.push({
-        id: index.toString(),
+        id: colorIndex.toString(),
         category: key!,
-        color: GraphColors[index],
+        color: GraphColors[colorIndex],
         sum: valueSum,
         operationCount: value.length,
       });
 
-      index += 1;
+      colorIndex += 1;
     });
-
     categoryData.sort((a, b) => b.sum - a.sum);
-
-    setGraphData(graphData);
-    setCategoryData(categoryData);
-    setSum(sum);
+    return { graphData: graphData, categoryData: categoryData, sum: sum, startDate: startDate, endDate: endDate };
   };
+
 
   const getNextDate = (year: number, month: number) => {
     if (month + 1 > 11) {
@@ -89,6 +103,32 @@ export default function Stats({ financeType }: Props) {
     } else {
       return new Date(year, month + 1, 1);
     }
+  };
+
+  const chart = (index: number) => {
+    setGlobalIndex(index);
+    return (
+      <View style={styles.container}>
+        <PieChart
+          data={data[index].graphData.length == 0 ? emptyData : data[index].graphData}
+          donut
+          showGradient
+          sectionAutoFocus
+          radius={100}
+          innerRadius={80}
+          innerCircleColor={theme.colors.tertiaryContainer}
+          centerLabelComponent={() => {
+            return (
+              <View style={styles.container}>
+                <Text style={[styles.month, { color: theme.colors.onTertiaryContainer }]}>
+                  {monthNames[data[index].startDate.getMonth()]}
+                </Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
   };
 
   const declinationOperations = (count: number) => {
@@ -104,39 +144,56 @@ export default function Stats({ financeType }: Props) {
 
   const emptyData = [{ value: 100, color: "#808080" }];
 
+  useEffect(() => {
+    setData([getChartFinances(2), getChartFinances(1), getChartFinances(0)]);
+  }, []);
+
+  if (data.length == 0) {
+    return (
+      <View style={styles.container}></View>
+    );
+  }
+
   return (
-    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+    <ScrollView>
       <View style={styles.baseContainer}>
         <Text style={{ fontSize: 24, color: theme.colors.onBackground }}>
-          {sum.toLocaleString("ru-RU", { style: "currency", currency: "RUB", minimumFractionDigits: 0 })}
+          {data[globalIndex].sum.toLocaleString("ru-RU", {
+            style: "currency",
+            currency: "RUB",
+            minimumFractionDigits: 0,
+          })}
         </Text>
-        <View style={styles.container}>
-          <PieChart
-            data={graphData.length == 0 ? emptyData : graphData}
-            donut
-            showGradient
-            sectionAutoFocus
-            radius={100}
-            innerRadius={80}
-            innerCircleColor={theme.colors.tertiaryContainer}
-            centerLabelComponent={() => {
-              return (
-                <View style={styles.container}>
-                  <Text style={[styles.month, { color: theme.colors.onTertiaryContainer }]}>
-                    {monthNames[currentMonth]}
-                  </Text>
-                </View>
-              );
-            }}
-          />
-        </View>
+
+        <Carousel
+          width={PAGE_WIDTH - 30}
+          height={PAGE_WIDTH * 0.8}
+          style={{
+            width: "auto",
+          }}
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingScale: 1,
+            parallaxScrollingOffset: 0,
+          }}
+          data={data}
+          loop={false}
+          renderItem={({ index }) => chart(index)}
+          onScrollEnd={(index: number) => {
+            if (index <= 1) {
+              setData([getChartFinances(data.length), getChartFinances(data.length + 1), getChartFinances(data.length + 2), ...data]);
+              // setGlobalIndex(index + 3);
+            }
+          }}
+        />
+
         <View>
           <Text style={[styles.title, { color: theme.colors.onBackground }]}>Категории</Text>
           <List.Section>
-            {categoryData.length == 0 ? (
+            {data[globalIndex].categoryData.length == 0 ? (
               <List.Item title="Нет операций" />
             ) : (
-              categoryData.map(item => (
+              data[globalIndex].categoryData.map(item => (
                 <List.Item
                   title={item.category}
                   key={item.id}
