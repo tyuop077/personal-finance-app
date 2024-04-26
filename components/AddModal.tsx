@@ -50,10 +50,18 @@ const AddModal = ({
       >
         <View style={styles.modalContainer}>
           <View style={{ flexDirection: "row" }}>
-            <Button onPress={() => setIsIncome(true)} 
-            style={{backgroundColor: isIncome ? theme.colors.onSecondary : theme.colors.background}}>Доход</Button>
-            <Button onPress={() => setIsIncome(false)} 
-            style={{backgroundColor: isIncome ? theme.colors.background : theme.colors.onSecondary}}>Расход</Button>
+            <Button
+              onPress={() => setIsIncome(true)}
+              style={{ backgroundColor: isIncome ? theme.colors.onSecondary : theme.colors.background }}
+            >
+              Доход
+            </Button>
+            <Button
+              onPress={() => setIsIncome(false)}
+              style={{ backgroundColor: isIncome ? theme.colors.background : theme.colors.onSecondary }}
+            >
+              Расход
+            </Button>
           </View>
           <TextInput
             autoFocus={true}
