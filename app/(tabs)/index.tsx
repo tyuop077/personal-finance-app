@@ -16,8 +16,9 @@ import { Modalize } from "react-native-modalize";
 import { useRootStore } from "@/hooks/useRootStore";
 import { FinanceType } from "@/modules/finance/finance.model";
 import { FinanceCard } from "@/components/FinanceCard";
+import { observer } from "mobx-react";
 
-export default function TabOneScreen() {
+const MainPage = observer(() => {
   const [isExtended, setIsExtended] = React.useState(true);
   const [selectedItemIndex, setSelectedItemIndex] = React.useState<number | null>(null);
   const addModalizeRef = useRef<Modalize>();
@@ -47,11 +48,11 @@ export default function TabOneScreen() {
 
   const trimStringIfLarger = (str: string) => {
     if (str.length > 20) {
-      str = str.substring(0, 20)
-      str += "..."
+      str = str.substring(0, 20);
+      str += "...";
     }
-    return str
-  }
+    return str;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,7 +106,7 @@ export default function TabOneScreen() {
       <AddModal modalizeRef={addModalizeRef} setSelectedItemIndex={setSelectedItemIndex}></AddModal>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -153,3 +154,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+export default MainPage;
